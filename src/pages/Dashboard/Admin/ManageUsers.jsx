@@ -20,7 +20,9 @@ const ManageUsers = () => {
   } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
-      let res = await axiosPrivate("/users");
+      let res = await axiosPrivate("/users",{
+        headers:{authorization:`bearar ${localStorage.getItem('access-token')}`}
+      });
       return res.data;
     },
   });
@@ -84,7 +86,7 @@ const ManageUsers = () => {
 
   return (
     <section>
-      <div className="p-10">
+      <div className="">
         <h1> ManageUsers ({users.length})</h1>
 
         <div>
@@ -161,7 +163,7 @@ const ManageUsers = () => {
           </div>
         </dialog>
       </div>
-      ;
+      
     </section>
   );
 };

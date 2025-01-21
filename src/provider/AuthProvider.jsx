@@ -24,11 +24,11 @@ const AuthProvider = ({ children }) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  // login user 
+  // login user
 
-  let signIn=(email,password)=>{
-    return signInWithEmailAndPassword(auth,email,password)
-  }
+  let signIn = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
   // update user imformetion
   let updateUserProfile = (name, photo) => {
@@ -38,34 +38,32 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-
-
-
-// this state for track user (is this user login or not)
+  // this state for track user (is this user login or not)
   useEffect(() => {
     setloading(true);
-    let subcribe = onAuthStateChanged(auth, (currentUser) => {
+    let unsubcribe = onAuthStateChanged(auth, (currentUser) => {
       setuser(currentUser);
       if (currentUser) {
-        axiosPublic.post("/jwt",{email:currentUser?.email}).then((res) => {
-          // localStorage.setItem(res.data)
-          if (res.data) {
-            localStorage.setItem("access-token",res.data?.token);
-          }
-          else{
-            localStorage.removeItem('access-token')
+        axiosPublic.post("/jwt", { email: currentUser?.email }).then((res) => {
+          console.log(res.data.token);
+
+          if (res.data.token) {
+            localStorage.setItem("access-token", res.data?.token);
+            setloading(false);
           }
         });
+      } else {
+        localStorage.removeItem("access-token");
+        setloading(false);
       }
-      setloading(false);
+     
     });
-    return () => subcribe();
+    return () => unsubcribe();
   }, []);
 
-  let logout=()=>{
-    return signOut(auth)
-  }
-
+  let logout = () => {
+    return signOut(auth);
+  };
 
   console.log(user);
 
@@ -77,7 +75,7 @@ const AuthProvider = ({ children }) => {
     createUser,
     updateUserProfile,
     logout,
-    signIn
+    signIn,
   };
 
   return (
