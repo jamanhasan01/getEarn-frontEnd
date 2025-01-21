@@ -1,31 +1,73 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.init";
-
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import { useNavigate } from "react-router-dom";
 
 export let authContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  let axiosPublic = useAxiosPublic();
   const [user, setuser] = useState(null);
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(true);
 
-  let createUser=(email,password)=>{
-    return createUserWithEmailAndPassword(auth,email,password)
+
+  // create an user
+  let createUser = (email, password) => {
+    setloading(true);
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  // login user 
+
+  let signIn=(email,password)=>{
+    return signInWithEmailAndPassword(auth,email,password)
   }
-  let updateUserProfile=(name,photo)=>{
-    return updateProfile(auth.currentUser,{
-      displayName:name,photoURL:photo
-    })
-  }
+
+  // update user imformetion
+  let updateUserProfile = (name, photo) => {
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo,
+    });
+  };
+
+
+
+
+// this state for track user (is this user login or not)
   useEffect(() => {
-    let subcribe=onAuthStateChanged(auth,currentUser=>{
+    setloading(true);
+    let subcribe = onAuthStateChanged(auth, (currentUser) => {
       setuser(currentUser);
-      setloading(false)
-    })
-    return ()=>subcribe()
-  }, [])
-  
-console.log(user);
+      if (currentUser) {
+        axiosPublic.post("/jwt",{email:currentUser?.email}).then((res) => {
+          // localStorage.setItem(res.data)
+          if (res.data) {
+            localStorage.setItem("access-token",res.data?.token);
+          }
+          else{
+            localStorage.removeItem('access-token')
+          }
+        });
+      }
+      setloading(false);
+    });
+    return () => subcribe();
+  }, []);
+
+  let logout=()=>{
+    return signOut(auth)
+  }
+
+
+  console.log(user);
 
   let authInfo = {
     user,
@@ -33,7 +75,9 @@ console.log(user);
     setloading,
     loading,
     createUser,
-    updateUserProfile
+    updateUserProfile,
+    logout,
+    signIn
   };
 
   return (
