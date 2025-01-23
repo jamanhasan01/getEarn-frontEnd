@@ -8,6 +8,9 @@ import ErrorPage from "../shared/ErrorPage";
 import AdminManage from "../pages/Dashboard/Admin/ManageUsers.jsx";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers.jsx";
 import ManageTasks from "../pages/Dashboard/Admin/ManageTasks.jsx";
+import AddTask from "../pages/Dashboard/buyer/AddTask.jsx";
+import MyTasks from "../pages/Dashboard/buyer/MyTasks.jsx";
+import PurchaseCoine from "../pages/Dashboard/buyer/PurchaseCoine.jsx";
 
 let router=createBrowserRouter([
     {
@@ -41,6 +44,18 @@ let router=createBrowserRouter([
                 path:'managetasks',
                 element:<ManageTasks></ManageTasks>
             },
+            {
+                path:'addtask',
+                element:<AddTask></AddTask>
+            },
+            {
+                path:'mytasks',
+                element:<MyTasks></MyTasks>
+            },
+            {
+                path:'purchasecoine',
+                element:<PurchaseCoine></PurchaseCoine>
+            }
         ]
     }
 ])
