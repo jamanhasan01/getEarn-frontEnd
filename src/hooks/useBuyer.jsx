@@ -12,7 +12,6 @@ const useBuyer = () => {
         enabled: !loading,
 
         queryFn: async () => {
-            console.log('asking or checking is buyer', user)
             const res = await axiosPrivate.get(`/users/buyer/${user.email}`);
             
             return res.data?.buyer;
