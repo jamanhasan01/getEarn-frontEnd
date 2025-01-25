@@ -3,12 +3,17 @@ import Topbar from "./shared/Topbar";
 import useAuth from "../../hooks/useAuth";
 import useAdmin from "../../hooks/useAdmin";
 import useBuyer from "../../hooks/useBuyer";
+import LoadingPage from "../../shared/LoadingPage";
 
 const DashBoard = () => {
-  let { logout } = useAuth();
+  let { logout, } = useAuth();
   let navigate = useNavigate();
   let [isAdmin] = useAdmin();
-  let [isBuyer] = useBuyer();
+  let [isBuyer,adminLoading] = useBuyer();
+ 
+  if (adminLoading) {
+    return <LoadingPage></LoadingPage>
+  }
 
   let handleLogout = () => {
     logout()
@@ -61,7 +66,7 @@ const DashBoard = () => {
                 </li>
               </ul>
             )}
-            {isBuyer && <ul className="list-none flex flex-col gap-2">
+            {isBuyer?.buyer && <ul className="list-none flex flex-col gap-2">
               <li>
                   <NavLink
                     to="/dashboard/addtask"

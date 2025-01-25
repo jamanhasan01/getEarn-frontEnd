@@ -1,9 +1,14 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
+import { BsCoin } from "react-icons/bs";
+import useBuyer from "../../../hooks/useBuyer";
+
 const Topbar = () => {
+  let [isBuyer]=useBuyer()
+ 
+  
   return (
-    <div className="navbar bg-gray-700 border-b border-gray-600 fixed z-10">
+    <div className="navbar bg-gray-700 border-b border-gray-600 fixed z-10 items-center">
       <div className="navbar-start">
         <Link to={"/"} className="btn btn-ghost text-xl">
           daisyUI
@@ -11,7 +16,10 @@ const Topbar = () => {
       </div>
 
       <div className="navbar-end">
- 
+        <div className="font-bold text-2xl flex gap-1 items-center text-[#FFD700]">
+          {isBuyer?.user?.coins}
+          <BsCoin />
+        </div>
         <button className="btn btn-ghost btn-circle">
           <div className="indicator">
             <svg
