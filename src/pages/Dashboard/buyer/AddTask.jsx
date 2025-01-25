@@ -4,13 +4,16 @@ import Swal from "sweetalert2";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import useBuyer from "../../../hooks/useBuyer";
 import useAuth from "../../../hooks/useAuth";
+import LoadingPage from "../../../shared/LoadingPage";
 
 const AddTask = () => {
   let axiosPublic = useAxiosPublic();
   let axiosPrivate = useAxiosPrivate();
-  let [isBuyer] = useBuyer();
+  let [isBuyer,buyerLoading,refetch] = useBuyer();
   let { user } = useAuth();
-
+if (buyerLoading) {
+  return <LoadingPage></LoadingPage>
+}
   let handleSubmitTask = async (e) => {
     e.preventDefault();
 
@@ -79,9 +82,12 @@ const AddTask = () => {
       let res = await axiosPrivate.post("/tasks", taskObj);
 
       if (res.data.insertedId) {
-       let res= await axiosPrivate.patch(`/users/buyer/${user?.email}`,{ coins: totalCoin });
+
+        // after added data this api minus  coin
+       let res =await axiosPrivate.patch(`/users/buyer/${user?.email}`,{ coins: totalCoin });
         console.log(res);
         
+        refetch()
         Swal.fire({
           position: "center",
           icon: "success",
