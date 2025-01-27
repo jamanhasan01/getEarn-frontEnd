@@ -6,12 +6,12 @@ import useBuyer from "../../hooks/useBuyer";
 import LoadingPage from "../../shared/LoadingPage";
 
 const DashBoard = () => {
-  let { logout, } = useAuth();
+  let { logout, loading} = useAuth();
   let navigate = useNavigate();
   let [isAdmin] = useAdmin();
   let [isBuyer,adminLoading] = useBuyer();
  
-  if (adminLoading) {
+  if (adminLoading ||loading) {
     return <LoadingPage></LoadingPage>
   }
 

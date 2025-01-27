@@ -11,6 +11,7 @@ import ManageTasks from "../pages/Dashboard/Admin/ManageTasks.jsx";
 import AddTask from "../pages/Dashboard/buyer/AddTask.jsx";
 import MyTasks from "../pages/Dashboard/buyer/MyTasks.jsx";
 import PurchaseCoine from "../pages/Dashboard/buyer/PurchaseCoine.jsx";
+import UpdateTask from "../pages/Dashboard/buyer/UpdateTask.jsx";
 
 let router=createBrowserRouter([
     {
@@ -48,6 +49,11 @@ let router=createBrowserRouter([
                 path:'addtask',
                 element:<AddTask></AddTask>
             },
+            {
+                path:`updatetask/:id`,
+                element:<UpdateTask></UpdateTask>
+            }
+            ,
             {
                 path:'mytasks',
                 element:<MyTasks></MyTasks>
