@@ -5,14 +5,15 @@ import { MdDeleteForever } from "react-icons/md";
 import { RxUpdate } from "react-icons/rx";
 import LoadingPage from "../../../shared/LoadingPage";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const MyTasks = () => {
   const { user } = useAuth();
   const axiosPrivate = useAxiosPrivate();
 
-
   // Fetch all tasks
-  const { data: tasks, isLoading: isLoadingTasks } = useQuery({
+  const { data: tasks, isLoading: isLoadingTasks,refetch } = useQuery({
     queryKey: ["tasks", user?.email],
     queryFn: async () => {
       const res = await axiosPrivate(`/tasks/${user?.email}`);
@@ -21,19 +22,38 @@ const MyTasks = () => {
     enabled: !!user?.email, // Prevents running query when user is null
   });
 
-
-
-  if (isLoadingTasks ) {
+  if (isLoadingTasks) {
     return <LoadingPage />;
   }
-
-
-
-  const handleDeleteTask = (id) => {
-    console.log("Deleting Task:", id);
-
+  const handleDeleteTask = async (id) => {
+    try {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to delete this task!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      });
+  
+      if (result.isConfirmed) {
+        const res = await axiosPrivate.delete(`/task/${id}`);
+  
+        if (res.data.deletedCount) {
+          refetch()
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your task has been deleted.",
+            icon: "success"
+          });
+        }
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
-
+  
   return (
     <section>
       <div>
@@ -77,8 +97,6 @@ const MyTasks = () => {
           </table>
         </div>
       </div>
-
-    
     </section>
   );
 };

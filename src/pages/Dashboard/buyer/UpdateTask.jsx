@@ -9,7 +9,7 @@ const UpdateTask = () => {
   const { id } = useParams();
   let { loading } = useAuth();
   let axiosPrivate = useAxiosPrivate();
-  let navigate=useNavigate()
+  let navigate = useNavigate();
 
   let { data: task, isLoading } = useQuery({
     queryKey: [id],
@@ -24,38 +24,30 @@ const UpdateTask = () => {
   }
 
   //  distracture data
-  let {
+  let { submission_info, task_details, task_title, _id } = task;
 
-   
-    submission_info,
-    task_details,
-    task_title,
-    _id,
-  } = task;
-  
-  let handleTaskUpdate= async(e)=>{
-    e.preventDefault()
-    let form=new FormData(e.target)
-    let task_title=form.get('task_title')
-    let task_details=form.get('task_details')
-    let submission_info=form.get('submission_info')
+  let handleTaskUpdate = async (e) => {
+    e.preventDefault();
+    let form = new FormData(e.target);
+    let task_title = form.get("task_title");
+    let task_details = form.get("task_details");
+    let submission_info = form.get("submission_info");
 
-    let updateTaskObj={
-      task_title,task_details,submission_info
-    }
+    let updateTaskObj = {
+      task_title,
+      task_details,
+      submission_info,
+    };
     try {
-      let res=await axiosPrivate.patch(`/task/${id}`,updateTaskObj)
+      let res = await axiosPrivate.patch(`/task/${id}`, updateTaskObj);
       if (res.data.modifiedCount) {
-        toast.success('Data has been updated')
-        navigate('/dashboard/mytasks')
+        toast.success("Data has been updated");
+        navigate("/dashboard/mytasks");
       }
-      
     } catch (error) {
-      console.log(error);
-      
+      toast.error(error.message);
     }
-    
-  }
+  };
 
   return (
     <div>
