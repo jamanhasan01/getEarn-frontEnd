@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 
 import { BsCoin } from "react-icons/bs";
 import useBuyer from "../../../hooks/useBuyer";
+import useCoins from "../../../hooks/useCoins";
 
 const Topbar = () => {
-  let [isBuyer]=useBuyer()
- 
+  let [coins]=useCoins()
+
+  
   
   return (
     <div className="navbar bg-gray-700 border-b border-gray-600 fixed z-10 items-center">
@@ -17,7 +19,7 @@ const Topbar = () => {
 
       <div className="navbar-end">
         <div className="font-bold text-2xl flex gap-1 items-center text-[#FFD700]">
-          {isBuyer?.user?.coins}
+         {coins}
           <BsCoin />
         </div>
         <button className="btn btn-ghost btn-circle">
