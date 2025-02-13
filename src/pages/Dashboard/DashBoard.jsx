@@ -1,18 +1,41 @@
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Topbar from "./shared/Topbar";
 import useAuth from "../../hooks/useAuth";
 import useAdmin from "../../hooks/useAdmin";
 import useBuyer from "../../hooks/useBuyer";
 import LoadingPage from "../../shared/LoadingPage";
+import useWorker from "../../hooks/useWorker";
+import AdminHome from "./Admin/AdminHome";
+import BuyerHome from "./buyer/BuyerHome";
+import WokerHome from "./worker/WokerHome";
+import { useEffect } from "react";
 
 const DashBoard = () => {
-  let { logout, loading} = useAuth();
+  let { logout, loading, user } = useAuth();
+  let location = useLocation();
   let navigate = useNavigate();
   let [isAdmin] = useAdmin();
-  let [isBuyer,adminLoading] = useBuyer();
- 
-  if (adminLoading ||loading) {
-    return <LoadingPage></LoadingPage>
+  let [isBuyer, adminLoading] = useBuyer();
+  let [isWorker] = useWorker();
+
+  // useEffect(() => {
+  //   if (isAdmin) {
+  //     navigate("/dashboard/admin-home");
+  //   } else if (isBuyer?.buyer) {
+  //     navigate("/dashboard/buyer-home");
+  //   } else if (isWorker?.worker) {
+  //     navigate("/dashboard/worker-home");
+  //   }
+  // }, [isAdmin, isBuyer, isWorker, navigate]);
+
+  if (adminLoading || loading) {
+    return <LoadingPage></LoadingPage>;
   }
 
   let handleLogout = () => {
@@ -37,6 +60,22 @@ const DashBoard = () => {
                 GetEarn
               </h2>
             </Link>
+            {
+              <ul className="list-none flex flex-col gap-2">
+                <li>
+                  <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                      location.pathname === "/dashboard"
+                        ? "block bg-white text-[#7480ff] font-semibold px-4 py-2 rounded"
+                        : "block text-white font-semibold px-4 py-2"
+                    }
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+              </ul>
+            }
             {/* this is admin route is will show only for admin */}
             {isAdmin && (
               <ul className="list-none flex flex-col gap-2">
@@ -66,8 +105,11 @@ const DashBoard = () => {
                 </li>
               </ul>
             )}
-            {isBuyer?.buyer && <ul className="list-none flex flex-col gap-2">
-              <li>
+            {/* this is buyer routes */}
+            {isBuyer?.buyer && (
+              <ul className="list-none flex flex-col gap-2">
+          
+                <li>
                   <NavLink
                     to="/dashboard/addtask"
                     className={({ isActive }) =>
@@ -79,7 +121,7 @@ const DashBoard = () => {
                     Add New Task
                   </NavLink>
                 </li>
-              <li>
+                <li>
                   <NavLink
                     to="/dashboard/mytasks"
                     className={({ isActive }) =>
@@ -91,7 +133,7 @@ const DashBoard = () => {
                     My Task's
                   </NavLink>
                 </li>
-              <li>
+                <li>
                   <NavLink
                     to="/dashboard/purchasecoine"
                     className={({ isActive }) =>
@@ -103,7 +145,50 @@ const DashBoard = () => {
                     Purchase Coines
                   </NavLink>
                 </li>
-              </ul>}
+              </ul>
+            )}
+            {/* this is woker routes */}
+            {isWorker?.worker && (
+              <ul className="list-none flex flex-col gap-2">
+          
+                <li>
+                  <NavLink
+                    to="/dashboard/tasklist"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "block bg-white text-[#7480ff] font-semibold px-4 py-2 rounded"
+                        : "block text-white font-semibold px-4 py-2"
+                    }
+                  >
+                    TaskList
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/mysubmissions"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "block bg-white text-[#7480ff] font-semibold px-4 py-2 rounded"
+                        : "block text-white font-semibold px-4 py-2"
+                    }
+                  >
+                    My Submissions
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/withdrawals"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "block bg-white text-[#7480ff] font-semibold px-4 py-2 rounded"
+                        : "block text-white font-semibold px-4 py-2"
+                    }
+                  >
+                    Withdrawals
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </nav>
           <nav className="text-center">
             <ul className="list-none flex flex-col gap-2 font-bold text-white border-t">
@@ -119,6 +204,13 @@ const DashBoard = () => {
 
         {/* Main Content (Adjusted for Sidebar) */}
         <div className="flex-1 min-h-screen  ml-[25%]  mt-10 p-10">
+          {location.pathname == "/dashboard" && (
+            <div>
+              {isAdmin && <AdminHome></AdminHome>}
+              {isBuyer?.buyer && <BuyerHome></BuyerHome>}
+              {isWorker?.worker && <WokerHome></WokerHome>}
+            </div>
+          )}
           <Outlet />
         </div>
       </div>

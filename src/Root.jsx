@@ -11,9 +11,7 @@ const Root = () => {
   if (loading) {
     return;
   }
-  // if (!user) {
-  //   return <Navigate to='/signin'></Navigate>
-  // }
+ 
 
   return (
     <div>

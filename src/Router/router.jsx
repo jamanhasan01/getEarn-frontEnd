@@ -12,6 +12,15 @@ import AddTask from "../pages/Dashboard/buyer/AddTask.jsx";
 import MyTasks from "../pages/Dashboard/buyer/MyTasks.jsx";
 import PurchaseCoine from "../pages/Dashboard/buyer/PurchaseCoine.jsx";
 import UpdateTask from "../pages/Dashboard/buyer/UpdateTask.jsx";
+import TaskLists from "../pages/Dashboard/worker/TaskLists.jsx";
+import MySubmissions from "../pages/Dashboard/worker/MySubmissions.jsx";
+import Withdrawals from "../pages/Dashboard/worker/Withdrawals.jsx";
+import WokerHome from "../pages/Dashboard/worker/WokerHome.jsx";
+import BuyerHome from "../pages/Dashboard/buyer/BuyerHome.jsx";
+import AdminHome from "../pages/Dashboard/Admin/AdminHome.jsx";
+import PrivetRoute from "./PrivetRoute.jsx";
+
+
 
 let router=createBrowserRouter([
     {
@@ -37,6 +46,8 @@ let router=createBrowserRouter([
         element:<DashBoard></DashBoard>,
         errorElement:<ErrorPage></ErrorPage>,
         children:[
+            // --------admin----------
+         
             {
                 path:'manageusers',
                 element:<ManageUsers></ManageUsers>
@@ -45,6 +56,9 @@ let router=createBrowserRouter([
                 path:'managetasks',
                 element:<ManageTasks></ManageTasks>
             },
+
+            // ----------buyer----------
+        
             {
                 path:'addtask',
                 element:<AddTask></AddTask>
@@ -61,6 +75,19 @@ let router=createBrowserRouter([
             {
                 path:'purchasecoine',
                 element:<PurchaseCoine></PurchaseCoine>
+            },
+            // ----------worker-----------
+            {
+                path:'tasklist',
+                element:<TaskLists></TaskLists>
+            },
+            {
+                path:'mysubmissions',
+                element:<MySubmissions></MySubmissions>
+            },
+            {
+                path:'withdrawals',
+                element:<Withdrawals></Withdrawals>
             }
         ]
     }

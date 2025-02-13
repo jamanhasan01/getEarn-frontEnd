@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { BsCoin } from "react-icons/bs";
-import useBuyer from "../../../hooks/useBuyer";
+
 import useCoins from "../../../hooks/useCoins";
 
 const Topbar = () => {
