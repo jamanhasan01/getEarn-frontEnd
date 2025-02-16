@@ -24,7 +24,7 @@ if (buyerLoading) {
     let completion_date = form.get("completion_date");
     let submission_info = form.get("submission_info");
     let task_details = form.get("task_details");
-
+    let task_url=form.get('task_url')
     let imageFile = e.target.image.files[0];
 
     if (!imageFile) {
@@ -73,6 +73,7 @@ if (buyerLoading) {
         completion_date,
         submission_info,
         task_details,
+        task_url,
         image: imageUrl,
         buyer_email: user?.email,
       };
@@ -164,6 +165,12 @@ if (buyerLoading) {
                 <span className="label-text">Image Upload</span>
               </label>
               <input type="file" name="image" className="file-input file-input-bordered w-full" required />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Task Url</span>
+              </label>
+              <input type="url" name="task_url"placeholder="Task Url" className="input input-bordered w-full" required/>
             </div>
 
             <div className="form-control mt-6">

@@ -5,7 +5,7 @@ import Home from "../pages/Home/Home";
 import SignIn from "../pages/signin/SignIn";
 import DashBoard from "../pages/Dashboard/DashBoard";
 import ErrorPage from "../shared/ErrorPage";
-import AdminManage from "../pages/Dashboard/Admin/ManageUsers.jsx";
+
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers.jsx";
 import ManageTasks from "../pages/Dashboard/Admin/ManageTasks.jsx";
 import AddTask from "../pages/Dashboard/buyer/AddTask.jsx";
@@ -15,10 +15,8 @@ import UpdateTask from "../pages/Dashboard/buyer/UpdateTask.jsx";
 import TaskLists from "../pages/Dashboard/worker/TaskLists.jsx";
 import MySubmissions from "../pages/Dashboard/worker/MySubmissions.jsx";
 import Withdrawals from "../pages/Dashboard/worker/Withdrawals.jsx";
-import WokerHome from "../pages/Dashboard/worker/WokerHome.jsx";
-import BuyerHome from "../pages/Dashboard/buyer/BuyerHome.jsx";
-import AdminHome from "../pages/Dashboard/Admin/AdminHome.jsx";
-import PrivetRoute from "./PrivetRoute.jsx";
+
+import VedioPlayer from "../components/VedioPlayer.jsx";
 
 
 
@@ -40,6 +38,10 @@ let router=createBrowserRouter([
                 path:'signup',
                 element:<SignUp/>
             },
+            {
+                path:'vedioplayer/:id',
+                element:<VedioPlayer></VedioPlayer>
+            }
         ]
     },{
         path:'/dashboard',
@@ -88,7 +90,7 @@ let router=createBrowserRouter([
             {
                 path:'withdrawals',
                 element:<Withdrawals></Withdrawals>
-            }
+            },
         ]
     }
 ])
