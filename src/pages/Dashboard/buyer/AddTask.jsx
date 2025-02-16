@@ -5,15 +5,25 @@ import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import useBuyer from "../../../hooks/useBuyer";
 import useAuth from "../../../hooks/useAuth";
 import LoadingPage from "../../../shared/LoadingPage";
+import moment from "moment";
 
 const AddTask = () => {
   let axiosPublic = useAxiosPublic();
   let axiosPrivate = useAxiosPrivate();
-  let [isBuyer,buyerLoading,refetch] = useBuyer();
+  let [isBuyer, buyerLoading, refetch] = useBuyer();
   let { user } = useAuth();
-if (buyerLoading) {
-  return <LoadingPage></LoadingPage>
-}
+  let todayDate=moment()
+
+
+
+  if (buyerLoading) {
+    return <LoadingPage></LoadingPage>;
+  }
+
+  
+
+  
+
   let handleSubmitTask = async (e) => {
     e.preventDefault();
 
@@ -24,15 +34,24 @@ if (buyerLoading) {
     let completion_date = form.get("completion_date");
     let submission_info = form.get("submission_info");
     let task_details = form.get("task_details");
-    let task_url=form.get('task_url')
+    let task_url = form.get("task_url");
     let imageFile = e.target.image.files[0];
+
+    let completionDate = moment(completion_date);
+    console.log(completionDate);
+    
+
+    if (completionDate.isBefore(todayDate, "day")) {
+      toast.error("You have to select a future date");
+      return;
+    }
 
     if (!imageFile) {
       toast.error("Please select an image");
       return;
     }
     console.log(imageFile);
-    
+
     if (required_workers <= 0 || payable_amount <= 0) {
       toast.error("Workers and Payable Amount must be positive numbers.");
       return;
@@ -56,9 +75,9 @@ if (buyerLoading) {
         return;
       }
 
-      let userCoins = isBuyer?.user?.coins
+      let userCoins = isBuyer?.user?.coins;
       console.log(userCoins);
-      
+
       let requiredTotal = payable_amount * required_workers;
 
       if (userCoins < requiredTotal) {
@@ -83,12 +102,13 @@ if (buyerLoading) {
       let res = await axiosPrivate.post("/tasks", taskObj);
 
       if (res.data.insertedId) {
-
         // after added data this api minus  coin
-       let res =await axiosPrivate.patch(`/users/buyer/${user?.email}`,{ coins: totalCoin });
+        let res = await axiosPrivate.patch(`/users/buyer/${user?.email}`, {
+          coins: totalCoin,
+        });
         console.log(res);
-        
-        refetch()
+
+        refetch();
         Swal.fire({
           position: "center",
           icon: "success",
@@ -117,14 +137,25 @@ if (buyerLoading) {
                 <label className="label">
                   <span className="label-text">Task Title</span>
                 </label>
-                <input type="text" name="task_title" placeholder="Task title" className="input input-bordered" required />
+                <input
+                  type="text"
+                  name="task_title"
+                  placeholder="Task title"
+                  className="input input-bordered"
+                  required
+                />
               </div>
 
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Completion Date</span>
                 </label>
-                <input type="date" name="completion_date" className="input input-bordered" required />
+                <input
+                  type="date"
+                  name="completion_date"
+                  className="input input-bordered"
+                  required
+                />
               </div>
             </div>
 
@@ -133,14 +164,26 @@ if (buyerLoading) {
                 <label className="label">
                   <span className="label-text">Payable Amount</span>
                 </label>
-                <input type="number" name="payable_amount" placeholder="Amount" className="input input-bordered" required />
+                <input
+                  type="number"
+                  name="payable_amount"
+                  placeholder="Amount"
+                  className="input input-bordered"
+                  required
+                />
               </div>
 
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Required Workers</span>
                 </label>
-                <input type="number" name="required_workers" placeholder="Workers" className="input input-bordered" required />
+                <input
+                  type="number"
+                  name="required_workers"
+                  placeholder="Workers"
+                  className="input input-bordered"
+                  required
+                />
               </div>
             </div>
 
@@ -149,14 +192,24 @@ if (buyerLoading) {
                 <label className="label">
                   <span className="label-text">Submission Info</span>
                 </label>
-                <textarea name="submission_info" placeholder="Submission info" className="input input-bordered" required />
+                <textarea
+                  name="submission_info"
+                  placeholder="Submission info"
+                  className="input input-bordered"
+                  required
+                />
               </div>
 
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Task Details</span>
                 </label>
-                <textarea name="task_details" placeholder="Task details" className="input input-bordered" required />
+                <textarea
+                  name="task_details"
+                  placeholder="Task details"
+                  className="input input-bordered"
+                  required
+                />
               </div>
             </div>
 
@@ -164,13 +217,24 @@ if (buyerLoading) {
               <label className="label">
                 <span className="label-text">Image Upload</span>
               </label>
-              <input type="file" name="image" className="file-input file-input-bordered w-full" required />
+              <input
+                type="file"
+                name="image"
+                className="file-input file-input-bordered w-full"
+                required
+              />
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Task Url</span>
               </label>
-              <input type="url" name="task_url"placeholder="Task Url" className="input input-bordered w-full" required/>
+              <input
+                type="url"
+                name="task_url"
+                placeholder="Task Url"
+                className="input input-bordered w-full"
+                required
+              />
             </div>
 
             <div className="form-control mt-6">

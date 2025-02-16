@@ -2,7 +2,7 @@ import { useState } from "react";
 import TaskDetailsModel from "../modal/TaskDetailsModel";
 
 const TaskCard = ({ task }) => {
-  const [showTaskModel, setshowTaskModel] = useState(false)
+  const [showTaskModel, setshowTaskModel] = useState(false);
   let {
     buyer_email,
     completion_date,
@@ -15,9 +15,9 @@ const TaskCard = ({ task }) => {
     _id,
   } = task;
 
-  let handleShowTask=()=>{
-    setshowTaskModel(true)
-  }
+  let handleShowTask = () => {
+    setshowTaskModel(true);
+  };
 
   return (
     <div className="border p-4 rounded-2xl flex flex-col gap-2">
@@ -34,12 +34,17 @@ const TaskCard = ({ task }) => {
 
       <h3 className="text-xl">Available : {required_workers}</h3>
       <div className="flex justify-between">
-        <button onClick={handleShowTask} className="button bg">View Task</button>
+        <button onClick={handleShowTask} className="button bg">
+          View Task
+        </button>
         <button className="button">Submit</button>
       </div>
-      <TaskDetailsModel showTaskModel={showTaskModel} setshowTaskModel={setshowTaskModel} task={task}></TaskDetailsModel>
+      <TaskDetailsModel
+        showTaskModel={showTaskModel}
+        setshowTaskModel={setshowTaskModel}
+        task={task}
+      ></TaskDetailsModel>
     </div>
-   
   );
 };
 
