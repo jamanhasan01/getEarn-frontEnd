@@ -12,17 +12,11 @@ const AddTask = () => {
   let axiosPrivate = useAxiosPrivate();
   let [isBuyer, buyerLoading, refetch] = useBuyer();
   let { user } = useAuth();
-  let todayDate=moment()
-
-
+  let todayDate = moment();
 
   if (buyerLoading) {
     return <LoadingPage></LoadingPage>;
   }
-
-  
-
-  
 
   let handleSubmitTask = async (e) => {
     e.preventDefault();
@@ -39,7 +33,6 @@ const AddTask = () => {
 
     let completionDate = moment(completion_date);
     console.log(completionDate);
-    
 
     if (completionDate.isBefore(todayDate, "day")) {
       toast.error("You have to select a future date");

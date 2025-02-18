@@ -1,14 +1,13 @@
+import React from "react";
+import useTasks from "../hooks/useTasks";
 import moment from "moment";
-import TaskCard from "../../components/TaskCard";
-import useTasks from "../../hooks/useTasks";
+import TaskCard from "./TaskCard";
 
-const FeaturedTasks = () => {
+const TaskCards = () => {
   let [tasks] = useTasks();
   const filteredTasks = tasks?.filter((task) => {
     return moment(task?.completion_date).isAfter(moment(), "day");
   });
-  console.log(filteredTasks);
-
   return (
     <section>
       <div className="container">
@@ -22,4 +21,4 @@ const FeaturedTasks = () => {
   );
 };
 
-export default FeaturedTasks;
+export default TaskCards;
