@@ -1,8 +1,9 @@
 import { useState } from "react";
 import TaskDetailsModel from "../modal/TaskDetailsModel";
 import TaskSubmitModel from "../modal/TaskSubmitModel";
+import useTasks from "../hooks/useTasks";
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task,refetch}) => {
   const [showTaskModel, setshowTaskModel] = useState(false);
   const [showTaskSubmit, setshowTaskSubmit] = useState(false);
   let {
@@ -23,12 +24,13 @@ const TaskCard = ({ task }) => {
 
   let handleTaskSubmit = () => {
     setshowTaskSubmit(true);
+
   };
 
   return (
 <>
         
-{required_workers>1 &&
+{required_workers>=1 &&
    
    <div className="border p-3 rounded-2xl flex flex-col gap-2">
      <img
@@ -60,6 +62,7 @@ const TaskCard = ({ task }) => {
        showTaskSubmit={showTaskSubmit}
        setShowTaskSubmit={setshowTaskSubmit}
        task={task}
+       refetch={refetch}
      ></TaskSubmitModel>
    </div>
    }

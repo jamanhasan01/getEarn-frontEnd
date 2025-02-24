@@ -5,11 +5,13 @@ import useAuth from "../hooks/useAuth";
 import moment from "moment";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
-const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task }) => {
-    let {user}=useAuth()
-    let currentTime=moment().format('lll'); 
-  let axiosPrivate=useAxiosPrivate()
-    
+
+const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) => {
+  let { user } = useAuth();
+  let currentTime = moment().format("lll");
+
+  let axiosPrivate = useAxiosPrivate();
+
   // object distracture
   let {
     buyer_email,
@@ -64,31 +66,30 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task }) => {
 
       console.log("Uploaded Image URL:", imageUrl);
 
-    //   this is post request for update summission data send in database
-      let taskSubmissions={
-        taskId:_id,
+      //   this is post request for update summission data send in database
+      let taskSubmissions = {
+        taskId: _id,
         buyer_email,
         payable_amount,
-        worker_email:user?.email,
-        worker_name:user?.displayName,
-        worker_photo:user?.photoURL,
+        worker_email: user?.email,
+        worker_name: user?.displayName,
+        worker_photo: user?.photoURL,
         required_workers,
-        submissionImage:imageUrl,
-        taskImage:image,
+        submissionImage: imageUrl,
+        taskImage: image,
         task_details,
         completion_date,
-        status:"pending",
+        status: "pending",
         task_title,
-        submissionTime:currentTime
-      }
-      let res=await axiosPublic.post('/submission_task',taskSubmissions)
+        submissionTime: currentTime,
+      };
+      let res = await axiosPublic.post("/submission_task", taskSubmissions);
       if (res.data.insertedId) {
         toast.success("Image uploaded successfully!");
-        let res=await axiosPrivate.patch(`/task/${_id}/workers`,{required_workers})
-        console.log(res);
-        
+        await axiosPrivate.patch(`/task/${_id}/workers?minus_worker=${-1}`)
+        refetch()
+        setShowTaskSubmit(false)
       }
-
     } catch (error) {
       console.error("Error:", error.message);
       toast.error("Something went wrong. Please try again.");
@@ -113,7 +114,9 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task }) => {
               <form onSubmit={handleSubmitImage}>
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text">Screenshot Upload for prove</span>
+                    <span className="label-text">
+                      Screenshot Upload for prove
+                    </span>
                   </label>
                   <input
                     type="file"

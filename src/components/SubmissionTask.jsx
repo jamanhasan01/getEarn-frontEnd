@@ -9,42 +9,69 @@ import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import useCoins from "../hooks/useCoins";
-
+import { RxCross2 } from "react-icons/rx";
+import LoadingPage from "../shared/LoadingPage";
 const SubmissionTask = () => {
   let axiosPrivate = useAxiosPrivate();
-  let [coins,refetchCoins]=useCoins()
+  let [coins, refetchCoins] = useCoins();
   let { user } = useAuth();
 
   // data get form submission db
-  let { data: tasks = [] ,refetch:refetchTask} = useQuery({
+  let { data: tasks = [], refetch: refetchTask ,isLoading} = useQuery({
     queryKey: ["tasks", user?.email],
     queryFn: async () => {
-      let res = await axiosPrivate("/submission_task");
+      let res = await axiosPrivate(`/submission_task`);
       return res.data;
     },
   });
 
-  console.log(tasks);
+
+  if (isLoading) {
+    <LoadingPage></LoadingPage>
+  }
 
   // this function for approve request
 
-  let handleApproveReq = async (id,email,payable_amount) => {
+  let handleApproveReq = async (id, email, payable_amount) => {
     let statusObj = { status: "approved" };
-    let addCoin={coins:Math.floor(payable_amount)}
+    let addCoin = { coins: Math.floor(payable_amount) };
     try {
       let res = await axiosPrivate.patch(`/submission_task/${id}`, statusObj);
-      
+
       if (res.data.modifiedCount) {
-      let res=  await axiosPrivate.patch(`/users/worker/${email}`,addCoin);
-      if (res.data.modifiedCount) {
-        toast("Approve Successfull");
-        refetchTask();
-        refetchCoins()
-      }
-        
+        let res = await axiosPrivate.patch(`/users/worker/${email}`, addCoin);
+        if (res.data.modifiedCount) {
+          toast("Approve Successfull");
+          refetchTask();
+          refetchCoins();
+        }
       }
     } catch (error) {
       toast("Approval failed:", error);
+    }
+  };
+
+  // this funtion for reject incrage worker
+
+  let handleRejectFunc = async (taskId, id) => {
+    let statusObj = { status: "reject" };
+
+    try {
+      let res = await axiosPrivate.patch(
+        `/task/${taskId}/workers?pluse_worker=${1}`
+      );
+      if (res.data.modifiedCount) {
+        let res = await axiosPrivate.patch(`/submission_task/${id}`, statusObj);
+        console.log(res.data);
+        if (res.data.modifiedCount) {
+          toast.warning("Reject successfully");
+          refetchTask();
+          refetchCoins();
+        }
+    
+      }
+    } catch (error) {
+      toast(error);
     }
   };
 
@@ -82,14 +109,30 @@ const SubmissionTask = () => {
                 </td>
                 <td className="text-2xl flex items-center gap-2 justify-center">
                   <button
-                    disabled={task?.status =="approved"}
-                    className={`${task?.status =="approved"?" text-green-400":""}`}
-                    onClick={() => handleApproveReq(task?._id,task?.worker_email,task?.payable_amount)}
+                    disabled={task?.status == "approved"}
+                    className={`${
+                      task?.status == "approved" ? " text-green-400" : task?.status=="reject"?"hidden":""
+                    }`}
+                    onClick={() =>
+                      handleApproveReq(
+                        task?._id,
+                        task?.worker_email,
+                        task?.payable_amount
+                      )
+                    }
                   >
                     <IoCheckmarkDoneSharp />
                   </button>
-                  <button className={`${task?.status =="approved"?" hidden":""}`}>
-                    <MdDeleteForever />
+                  <button
+                    onClick={() => handleRejectFunc(task?.taskId, task?._id)}
+                    className={`${task?.status == "reject" ? " text-red-600" : task?.status=="approved"?" hidden":""}`}
+                  >
+                    {task?.status == "reject" ? (
+                      <RxCross2 />
+                    ) : (
+                      <MdDeleteForever />
+                    )}
+                   
                   </button>
                 </td>
               </tr>
