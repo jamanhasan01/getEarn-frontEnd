@@ -79,7 +79,7 @@ const TaskDetailsModel = ({ showTaskModel, setshowTaskModel, task }) => {
               </h4>
               <p className=" font-semibold">Details : {task_details}</p>
               <Link
-                to={`vedioplayer/${_id}`}
+                to={`/vedioplayer/${_id}`}
                 className="button w-full text-center"
               >
                 Watch

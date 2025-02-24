@@ -5,7 +5,7 @@ import { BsCoin } from "react-icons/bs";
 import useCoins from "../../../hooks/useCoins";
 
 const Topbar = () => {
-  let [coins]=useCoins()
+  let [coins,refetch]=useCoins()
 
   
   

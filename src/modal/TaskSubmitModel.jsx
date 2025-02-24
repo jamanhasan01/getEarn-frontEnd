@@ -3,11 +3,12 @@ import useAxiosPublic from "../hooks/useAxiosPublic";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import moment from "moment";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task }) => {
     let {user}=useAuth()
     let currentTime=moment().format('lll'); 
-  
+  let axiosPrivate=useAxiosPrivate()
     
   // object distracture
   let {
@@ -69,16 +70,23 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task }) => {
         buyer_email,
         payable_amount,
         worker_email:user?.email,
+        worker_name:user?.displayName,
+        worker_photo:user?.photoURL,
         required_workers,
         submissionImage:imageUrl,
         taskImage:image,
         task_details,
         completion_date,
+        status:"pending",
+        task_title,
         submissionTime:currentTime
       }
       let res=await axiosPublic.post('/submission_task',taskSubmissions)
       if (res.data.insertedId) {
         toast.success("Image uploaded successfully!");
+        let res=await axiosPrivate.patch(`/task/${_id}/workers`,{required_workers})
+        console.log(res);
+        
       }
 
     } catch (error) {

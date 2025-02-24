@@ -1,11 +1,16 @@
 import moment from "moment";
 import TaskCard from "../../components/TaskCard";
 import useTasks from "../../hooks/useTasks";
+import useAuth from "../../hooks/useAuth";
 
 const FeaturedTasks = () => {
+  let {user}=useAuth()
   let [tasks] = useTasks();
+
   const filteredTasks = tasks?.filter((task) => {
-    return moment(task?.completion_date).isAfter(moment(), "day");
+
+      return moment(task?.completion_date).isAfter(moment(), "day");
+    
   });
   console.log(filteredTasks);
 
