@@ -7,13 +7,15 @@ import LoadingPage from "../../../shared/LoadingPage";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import useCoins from "../../../hooks/useCoins";
+
 
 const MyTasks = () => {
   const { user } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-
+  let [coins,refetchCoins]=useCoins()
   // Fetch all tasks
-  const { data: tasks, isLoading: isLoadingTasks,refetch } = useQuery({
+  const { data: tasks, isLoading: isLoadingTasks,refetch:taskRefetch } = useQuery({
     queryKey: ["tasks", user?.email],
     queryFn: async () => {
       const res = await axiosPrivate(`/tasks/${user?.email}`);
@@ -22,10 +24,17 @@ const MyTasks = () => {
     enabled: !!user?.email, // Prevents running query when user is null
   });
 
+
+  console.log(tasks);
+  
+
   if (isLoadingTasks) {
     return <LoadingPage />;
   }
-  const handleDeleteTask = async (id) => {
+  const handleDeleteTask = async (id,required_workers,payable_amount) => {
+    let totalCoin=required_workers*payable_amount
+    console.log(totalCoin);
+    
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
@@ -38,15 +47,21 @@ const MyTasks = () => {
       });
   
       if (result.isConfirmed) {
-        const res = await axiosPrivate.delete(`/task/${id}`);
-  
-        if (res.data.deletedCount) {
-          refetch()
+      
+        const res = await axiosPrivate.delete(`/task/${id}?email=${user.email}&coins=${totalCoin}`);
+        console.log(res.data.deleteResult.deletedCount);
+        
+        if (res.data.deleteResult.deletedCount) {
+       
+     
+        refetchCoins()
+        taskRefetch()
           Swal.fire({
             title: "Deleted!",
-            text: "Your task has been deleted.",
+            text: `${res.data.message} ${totalCoin}`,
             icon: "success"
           });
+       
         }
       }
     } catch (error) {
@@ -84,7 +99,7 @@ const MyTasks = () => {
                   <td>{task?.task_details}</td>
                   <td>{task?.submission_info}</td>
                   <td className="text-2xl flex items-center gap-2 justify-center">
-                    <button onClick={() => handleDeleteTask(task?._id)}>
+                    <button onClick={() => handleDeleteTask(task?._id,task?.payable_amount,task?.required_workers)}>
                       <MdDeleteForever />
                     </button>
                     <Link to={`/dashboard/updatetask/${task._id}`}>

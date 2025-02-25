@@ -2,7 +2,6 @@ import useSubmission from "../../../hooks/useSubmission";
 
 const MySubmissions = () => {
   let [submission_data] = useSubmission();
-  console.log(submission_data);
 
   return (
     <div>
