@@ -10,7 +10,7 @@ const useSubmission = () => {
     queryKey:['submission_data',user?.email],
     queryFn:async()=>{
         let res=await axiosPublic.get(`/submission_task/${user?.email}`)
-        return res.data
+        return res?.data
     }
  })
  return [submission_data]

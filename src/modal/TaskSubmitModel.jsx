@@ -70,6 +70,7 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
       let taskSubmissions = {
         taskId: _id,
         buyer_email,
+        buyer_name:user?.displayName,
         payable_amount,
         worker_email: user?.email,
         worker_name: user?.displayName,

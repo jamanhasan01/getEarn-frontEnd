@@ -12,7 +12,7 @@ const MySubmissions = () => {
             <tr>
               <th>Title</th>
               <th>Details</th>
-              <th>Coins</th>
+              <th>payable_amount</th>
               <th>Submit Date</th>
               <th>Status</th>
               <th></th>
