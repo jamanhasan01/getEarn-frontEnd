@@ -28,6 +28,7 @@ const SignUp = () => {
         name,
         role,
         photo,
+        coinPaid:0
         
       };
       let { data } = await axiosPublic.post("/users", userInfo);

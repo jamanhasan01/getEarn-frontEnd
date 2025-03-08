@@ -11,23 +11,32 @@ import { toast } from "react-toastify";
 import useCoins from "../hooks/useCoins";
 import { RxCross2 } from "react-icons/rx";
 import LoadingPage from "../shared/LoadingPage";
-const SubmissionTask = () => {
+import useBuyer from "../hooks/useBuyer";
+import ViewSubmission from "../modal/ViewSubmission";
+const SubmissionBuyerTask = ({ totalPaidCoin, settotalPaidCoin }) => {
   let axiosPrivate = useAxiosPrivate();
   let [coins, refetchCoins] = useCoins();
   let { user } = useAuth();
+  const [showModel, setshowModel] = useState(false);
+  const [submissionDetails, setsubmissionDetails] = useState({})
+console.log(submissionDetails);
+
 
   // data get form submission db
-  let { data: tasks = [], refetch: refetchTask ,isLoading} = useQuery({
+  let {
+    data: tasks = [],
+    refetch: refetchTask,
+    isLoading,
+  } = useQuery({
     queryKey: ["tasks", user?.email],
     queryFn: async () => {
-      let res = await axiosPrivate(`/submission_task`);
+      let res = await axiosPrivate(`/submission_task/buyer/${user.email}`);
       return res.data;
     },
   });
 
-
   if (isLoading) {
-    <LoadingPage></LoadingPage>
+    <LoadingPage></LoadingPage>;
   }
 
   // this function for approve request
@@ -35,15 +44,23 @@ const SubmissionTask = () => {
   let handleApproveReq = async (id, email, payable_amount) => {
     let statusObj = { status: "approved" };
     let addCoin = { coins: Math.floor(payable_amount) };
+
     try {
       let res = await axiosPrivate.patch(`/submission_task/${id}`, statusObj);
 
       if (res.data.modifiedCount) {
         let res = await axiosPrivate.patch(`/users/worker/${email}`, addCoin);
         if (res.data.modifiedCount) {
+          let res = await axiosPrivate.patch(
+            `/total_paid/users/buyer/${user?.email}?total_coin=${payable_amount}`
+          );
+          console.log(res.data);
+
+          settotalPaidCoin(totalPaidCoin + payable_amount);
           toast("Approve Successfull");
           refetchTask();
           refetchCoins();
+          isBuyerRef();
         }
       }
     } catch (error) {
@@ -68,11 +85,15 @@ const SubmissionTask = () => {
           refetchTask();
           refetchCoins();
         }
-    
       }
     } catch (error) {
       toast(error);
     }
+  };
+
+  let handleViewSubmit = (task) => {
+    setsubmissionDetails(task)
+    setshowModel(true);
   };
 
   return (
@@ -103,7 +124,14 @@ const SubmissionTask = () => {
                 <td>{task?.task_title}</td>
                 <td>{task?.payable_amount}</td>
                 <td>
-                  <button className="text-2xl ">
+                  <button
+                    onClick={() =>
+                      handleViewSubmit(
+                        task
+                      )
+                    }
+                    className="text-2xl "
+                  >
                     <MdViewCarousel></MdViewCarousel>
                   </button>
                 </td>
@@ -111,7 +139,11 @@ const SubmissionTask = () => {
                   <button
                     disabled={task?.status == "approved"}
                     className={`${
-                      task?.status == "approved" ? " text-green-400" : task?.status=="reject"?"hidden":""
+                      task?.status == "approved"
+                        ? " text-green-400"
+                        : task?.status == "reject"
+                        ? "hidden"
+                        : ""
                     }`}
                     onClick={() =>
                       handleApproveReq(
@@ -125,14 +157,19 @@ const SubmissionTask = () => {
                   </button>
                   <button
                     onClick={() => handleRejectFunc(task?.taskId, task?._id)}
-                    className={`${task?.status == "reject" ? " text-red-600" : task?.status=="approved"?" hidden":""}`}
+                    className={`${
+                      task?.status == "reject"
+                        ? " text-red-600"
+                        : task?.status == "approved"
+                        ? " hidden"
+                        : ""
+                    }`}
                   >
                     {task?.status == "reject" ? (
                       <RxCross2 />
                     ) : (
                       <MdDeleteForever />
                     )}
-                   
                   </button>
                 </td>
               </tr>
@@ -140,8 +177,16 @@ const SubmissionTask = () => {
           </tbody>
         </table>
       </div>
+      {showModel && (
+        <ViewSubmission
+          showModel={showModel}
+          setshowModel={setshowModel}
+          submissionDetails={submissionDetails}
+          setsubmissionDetails={setsubmissionDetails}
+        ></ViewSubmission>
+      )}
     </div>
   );
 };
 
-export default SubmissionTask;
+export default SubmissionBuyerTask;

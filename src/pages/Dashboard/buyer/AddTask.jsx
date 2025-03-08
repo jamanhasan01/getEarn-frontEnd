@@ -15,7 +15,7 @@ const AddTask = () => {
   let todayDate = moment();
 
   if (buyerLoading) {
-    return <LoadingPage></LoadingPage>;
+    return <LoadingPage />;
   }
 
   let handleSubmitTask = async (e) => {
@@ -32,30 +32,23 @@ const AddTask = () => {
     let imageFile = e.target.image.files[0];
 
     let completionDate = moment(completion_date);
-    console.log(completionDate);
-
     if (completionDate.isBefore(todayDate, "day")) {
       toast.error("You have to select a future date");
       return;
     }
-
     if (!imageFile) {
       toast.error("Please select an image");
       return;
     }
-    console.log(imageFile);
-
     if (required_workers <= 0 || payable_amount <= 0) {
       toast.error("Workers and Payable Amount must be positive numbers.");
       return;
     }
 
     let imageDbApi = import.meta.env.VITE_IMGDB_API;
-
     try {
       let imageFormData = new FormData();
       imageFormData.append("image", imageFile);
-
       let imgUploadRes = await axiosPublic.post(
         `https://api.imgbb.com/1/upload?key=${imageDbApi}`,
         imageFormData,
@@ -69,10 +62,7 @@ const AddTask = () => {
       }
 
       let userCoins = isBuyer?.user?.coins;
-      console.log(userCoins);
-
       let requiredTotal = payable_amount * required_workers;
-
       if (userCoins < requiredTotal) {
         toast.error("Insufficient coins to create the task");
         return;
@@ -91,16 +81,12 @@ const AddTask = () => {
       };
 
       let totalCoin = userCoins - requiredTotal;
-
       let res = await axiosPrivate.post("/tasks", taskObj);
 
       if (res.data.insertedId) {
-        // after added data this api minus  coin
-        let res = await axiosPrivate.patch(`/users/buyer/${user?.email}`, {
+        await axiosPrivate.patch(`/users/buyer/${user?.email}`, {
           coins: totalCoin,
         });
-        console.log(res);
-
         refetch();
         Swal.fire({
           position: "center",
@@ -109,132 +95,80 @@ const AddTask = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-
         e.target.reset();
       }
     } catch (error) {
-      console.error("Error:", error.message);
       toast.error("Something went wrong. Please try again.");
     }
   };
 
   return (
-    <div>
-      <div className="hero min-h-screen">
-        <div className="card bg-base-100 w-full max-w-lg shadow-2xl">
-          <form onSubmit={handleSubmitTask} className="card-body">
-            <h2 className="text-2xl text-center font-semibold">Add New Task</h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Task Title</span>
-                </label>
-                <input
-                  type="text"
-                  name="task_title"
-                  placeholder="Task title"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
-
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Completion Date</span>
-                </label>
-                <input
-                  type="date"
-                  name="completion_date"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Payable Amount</span>
-                </label>
-                <input
-                  type="number"
-                  name="payable_amount"
-                  placeholder="Amount"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
-
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Required Workers</span>
-                </label>
-                <input
-                  type="number"
-                  name="required_workers"
-                  placeholder="Workers"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Submission Info</span>
-                </label>
-                <textarea
-                  name="submission_info"
-                  placeholder="Submission info"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
-
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Task Details</span>
-                </label>
-                <textarea
-                  name="task_details"
-                  placeholder="Task details"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Image Upload</span>
-              </label>
-              <input
-                type="file"
-                name="image"
-                className="file-input file-input-bordered w-full"
-                required
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Task Url</span>
-              </label>
-              <input
-                type="url"
-                name="task_url"
-                placeholder="Task Url"
-                className="input input-bordered w-full"
-                required
-              />
-            </div>
-
-            <div className="form-control mt-6">
-              <button className="btn btn-primary">Add Task</button>
-            </div>
-          </form>
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+      <div className="card bg-gray-800 p-6 w-full max-w-lg shadow-lg rounded-lg">
+        <form onSubmit={handleSubmitTask} className="space-y-4">
+          <h2 className="text-2xl font-semibold text-center">Add New Task</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input
+              type="text"
+              name="task_title"
+              placeholder="Task title"
+              className="input input-bordered bg-gray-700 text-white"
+              required
+            />
+            <input
+              type="date"
+              name="completion_date"
+              className="input input-bordered bg-gray-700 text-white"
+              required
+            />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input
+              type="number"
+              name="payable_amount"
+              placeholder="Amount"
+              className="input input-bordered bg-gray-700 text-white"
+              required
+            />
+            <input
+              type="number"
+              name="required_workers"
+              placeholder="Workers"
+              className="input input-bordered bg-gray-700 text-white"
+              required
+            />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <textarea
+              name="submission_info"
+              placeholder="Submission info"
+              className="textarea bg-gray-700 text-white"
+              required
+            />
+            <textarea
+              name="task_details"
+              placeholder="Task details"
+              className="textarea bg-gray-700 text-white"
+              required
+            />
+          </div>
+          <input
+            type="file"
+            name="image"
+            className="file-input file-input-bordered w-full bg-gray-700 text-white"
+            required
+          />
+          <input
+            type="url"
+            name="task_url"
+            placeholder="Task Url"
+            className="input input-bordered bg-gray-700 text-white w-full"
+            required
+          />
+          <button className="btn bg-blue-600 hover:bg-blue-700 text-white w-full">
+            Add Task
+          </button>
+        </form>
       </div>
     </div>
   );

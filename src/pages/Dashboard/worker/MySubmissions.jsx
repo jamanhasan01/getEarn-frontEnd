@@ -1,7 +1,12 @@
+import SubmissionWorkerTask from "../../../components/SubmissionWorkerTask";
 import useSubmission from "../../../hooks/useSubmission";
+import LoadingPage from "../../../shared/LoadingPage";
 
 const MySubmissions = () => {
-  let [submission_data] = useSubmission();
+  let [submission_data,isLoading] = SubmissionWorkerTask();
+  if (isLoading) {
+    return <LoadingPage></LoadingPage>
+  }
 
   return (
     <div>
@@ -10,6 +15,7 @@ const MySubmissions = () => {
           {/* head */}
           <thead>
             <tr>
+              <th>#</th>
               <th>Title</th>
               <th>Details</th>
               <th>payable_amount</th>
@@ -21,8 +27,11 @@ const MySubmissions = () => {
           <tbody>
             {/* row 1 */}
 
-            {submission_data?.map((submission) => (
+            {submission_data?.map((submission,i) => (
               <tr key={submission._id}>
+                <td>
+                  {i+1}
+                </td>
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">

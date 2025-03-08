@@ -7,7 +7,7 @@ const useBuyer = () => {
   let { user, loading } = useAuth();
   let axiosPrivate = useAxiosPrivate();
 
-  const { data: isBuyer, isLoading: buyerLoading ,refetch} = useQuery({
+  const { data: isBuyer, isLoading: buyerLoading ,refetch:isBuyerRef} = useQuery({
     queryKey: [user?.email, "isBuyer"],
     enabled: !loading,
 
@@ -20,7 +20,7 @@ const useBuyer = () => {
 
   
  
-  return [isBuyer, buyerLoading,refetch];
+  return [isBuyer, buyerLoading,isBuyerRef];
 };
 
 export default useBuyer;
