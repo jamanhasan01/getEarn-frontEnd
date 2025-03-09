@@ -78,7 +78,8 @@ if (isLoading) {
           Approved Submissions
         </h2>
         <div className="overflow-x-auto">
-          <table className="table w-full text-gray-200">
+         <div className="hidden md:block">
+         <table className="table w-full text-gray-200">
             {/* Table Header */}
             <thead className="bg-gray-700">
               <tr >
@@ -124,6 +125,38 @@ if (isLoading) {
               ))}
             </tbody>
           </table>
+         </div>
+         {/* Cards for Mobile */}
+  <div className="block md:hidden space-y-4">
+    {approve_data?.map((submission, i) => (
+      <div key={submission._id} className="bg-gray-700 p-4 rounded-lg shadow-md">
+        <div className="flex items-center gap-3">
+          <div className="avatar">
+            <div className="mask mask-squircle h-16 w-16">
+              <img src={submission?.taskImage} alt="Task Image" />
+            </div>
+          </div>
+          <div className="flex-1">
+            <h3 className="font-bold text-lg">{submission.task_title}</h3>
+            <p className="text-gray-400 text-sm">Buyer: {submission.buyer_name}</p>
+            <p className="text-green-400 font-bold text-sm">
+              Earned: {submission.payable_amount} Coins
+            </p>
+          </div>
+        </div>
+        <div className="mt-3 text-right">
+          <span
+            className={`px-3 py-1 text-sm rounded-full font-medium capitalize text-white 
+              ${submission.status === "pending" ? "bg-orange-500" : ""}
+              ${submission.status === "approved" ? "bg-green-500" : ""}
+              ${submission.status === "reject" ? "bg-red-500" : ""}`}
+          >
+            {submission.status}
+          </span>
+        </div>
+      </div>
+    ))}
+  </div>
         </div>
       </div>
     </section>

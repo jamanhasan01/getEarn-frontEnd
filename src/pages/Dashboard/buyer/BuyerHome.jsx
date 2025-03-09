@@ -27,10 +27,10 @@ const BuyerHome = () => {
   let pending_count = tasks?.reduce((acc, item) => {
     return item.status == "pending" ? acc + 1 : acc;
   }, 0);
-  console.log(tasks);
+
 
   return (
-    <section className="p-6 bg-gray-900 min-h-screen text-gray-200">
+    <section className="p-3 md:p-6 border rounded-2xl border-gray-600 min-h-screen text-gray-200">
     {/* Stats Section */}
     <div className="mb-8">
       <h2 className="text-3xl font-bold mb-6 text-white">Dashboard Overview</h2>

@@ -39,6 +39,7 @@ const DashBoard = () => {
   let [isAdmin] = useAdmin();
   let [isBuyer, adminLoading] = useBuyer();
   let [isWorker] = useWorker();
+  const [asideShow, setasideShow] = useState(false)
   const [showSidebar, setshowSidebar] = useState(false);
 
   if (adminLoading || loading) {
@@ -55,9 +56,9 @@ const DashBoard = () => {
     <section className="h-screen flex flex-col">
       <Topbar />
       <div className="flex h-full">
-        <aside
-          className={`fixed left-0 top-0 z-10 h-full bg-[#7480ff] p-5 flex flex-col justify-between transition-all duration-300 ${
-            showSidebar ? "w-20" : "md:w-1/5"
+        {<aside
+          className={`fixed left-0 top-0 z-10 h-full bg-[#7480ff] p-5 ${showSidebar?"px-1":"px-5" } flex flex-col justify-between transition-all duration-300 ${
+            showSidebar ? "w-12" : "md:w-1/5"
           }`}
         >
           {/* Button to toggle sidebar visibility */}
@@ -84,14 +85,14 @@ const DashBoard = () => {
                 <NavLink
                   to="/dashboard"
                   className={({ isActive }) =>
-                    `flex items-center gap-2 text-lg px-2 py-2 font-semibold transition-all ${
+                    `flex items-center justify-start  gap-2 text-base px-2  py-2  font-semibold transition-all ${
                         location.pathname === "/dashboard"
                         ? "bg-white text-[#7480ff] rounded"
                         :  "text-white rounded hover:bg-white hover:text-[#7480ff]"
                     }`
                   }
                 >
-                  <FaHome className={`text-${showSidebar ? "2xl" : "2xl"}`} />
+                  <FaHome className={`${showSidebar ? "text-2xl" : "text-2xl"}`} />
                   {!showSidebar && "Dashboard"}{" "}
                   {/* Hide text if sidebar is collapsed */}
                 </NavLink>
@@ -103,7 +104,7 @@ const DashBoard = () => {
                     <NavLink
                       to="/dashboard/manageusers"
                       className={({ isActive }) =>
-                        `flex items-center gap-2 text-lg px-2 py-2 font-semibold transition-all ${
+                        `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                           isActive
                             ? "bg-white text-[#7480ff] rounded"
                             :  "text-white rounded hover:bg-white hover:text-[#7480ff]"
@@ -120,7 +121,7 @@ const DashBoard = () => {
                     <NavLink
                       to="/dashboard/managetasks"
                       className={({ isActive }) =>
-                        `flex items-center gap-2 text-lg px-2 py-2 font-semibold transition-all ${
+                        `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                           isActive
                             ? "bg-white text-[#7480ff] rounded"
                             :  "text-white rounded hover:bg-white hover:text-[#7480ff]"
@@ -142,7 +143,7 @@ const DashBoard = () => {
                     <NavLink
                       to="/dashboard/addtask"
                       className={({ isActive }) =>
-                        `flex items-center gap-2 text-lg px-2 py-2 font-semibold transition-all ${
+                        `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                           isActive
                             ? "bg-white text-[#7480ff] rounded"
                             :  "text-white rounded hover:bg-white hover:text-[#7480ff]"
@@ -159,7 +160,7 @@ const DashBoard = () => {
                     <NavLink
                       to="/dashboard/mytasks"
                       className={({ isActive }) =>
-                        `flex items-center gap-2 text-lg px-2 py-2 font-semibold transition-all ${
+                        `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                           isActive
                             ? "bg-white text-[#7480ff] rounded"
                             :  "text-white rounded hover:bg-white hover:text-[#7480ff]"
@@ -176,7 +177,7 @@ const DashBoard = () => {
                     <NavLink
                       to="/dashboard/purchasecoine"
                       className={({ isActive }) =>
-                        `flex items-center gap-2 text-lg px-2 py-2 font-semibold transition-all ${
+                        `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                           isActive
                             ? "bg-white text-[#7480ff] rounded"
                             :  "text-white rounded hover:bg-white hover:text-[#7480ff]"
@@ -198,7 +199,7 @@ const DashBoard = () => {
                     <NavLink
                       to="/dashboard/tasklist"
                       className={({ isActive }) =>
-                        `flex items-center gap-2 text-lg px-2 py-2 font-semibold transition-all ${
+                        `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                           isActive
                             ? "bg-white text-[#7480ff] rounded"
                             : "text-white rounded hover:bg-white hover:text-[#7480ff]"
@@ -215,7 +216,7 @@ const DashBoard = () => {
                     <NavLink
                       to="/dashboard/mysubmissions"
                       className={({ isActive }) =>
-                        `flex items-center gap-2 text-lg px-2 py-2 font-semibold transition-all ${
+                        `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                           isActive
                             ? "bg-white text-[#7480ff] rounded"
                             :  "text-white rounded hover:bg-white hover:text-[#7480ff]"
@@ -232,7 +233,7 @@ const DashBoard = () => {
                     <NavLink
                       to="/dashboard/withdrawals"
                       className={({ isActive }) =>
-                        `flex items-center gap-2 text-lg px-2 py-2 font-semibold transition-all ${
+                        `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                           isActive
                             ? "bg-white text-[#7480ff] rounded"
                             : "text-white rounded hover:bg-white hover:text-[#7480ff]"
@@ -277,12 +278,12 @@ const DashBoard = () => {
               </li>
             </ul>
           </nav>
-        </aside>
+        </aside>}
 
         <div
           className={`transition-all duration-300 ${
-            showSidebar ? "ml-[5rem] w-[calc(100%-5rem)]" : "ml-[20%] w-[80%]"
-          } min-h-screen p-10 mt-10`}
+            showSidebar ? "ml-[3rem] w-[calc(100%-3rem)]" : "ml-[20%] w-[80%]"
+          } min-h-screen p-2 mt-10`}
         >
           {location.pathname === "/dashboard" && (
             <>

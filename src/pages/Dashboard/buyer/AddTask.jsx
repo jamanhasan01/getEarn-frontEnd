@@ -103,7 +103,7 @@ const AddTask = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+    <div className="min-h-screen flex items-center justify-center  text-white">
       <div className="card bg-gray-800 p-6 w-full max-w-lg shadow-lg rounded-lg">
         <form onSubmit={handleSubmitTask} className="space-y-4">
           <h2 className="text-2xl font-semibold text-center">Add New Task</h2>

@@ -3,13 +3,16 @@ import useSubmission from "../../../hooks/useSubmission";
 import LoadingPage from "../../../shared/LoadingPage";
 
 const MySubmissions = () => {
-  let [submission_data,isLoading] = SubmissionWorkerTask();
+  let [submission_data, isLoading] = SubmissionWorkerTask();
   if (isLoading) {
-    return <LoadingPage></LoadingPage>
+    return <LoadingPage></LoadingPage>;
   }
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-800 p-6 rounded-xl shadow-md">
+      <h3 className="text-center text-3xl mb-3 font-medium text-gray-400">
+        Total Submissions
+      </h3>
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}
@@ -27,11 +30,9 @@ const MySubmissions = () => {
           <tbody>
             {/* row 1 */}
 
-            {submission_data?.map((submission,i) => (
+            {submission_data?.map((submission, i) => (
               <tr key={submission._id}>
-                <td>
-                  {i+1}
-                </td>
+                <td>{i + 1}</td>
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
@@ -60,7 +61,11 @@ const MySubmissions = () => {
                     className={
                       submission.status == "pending"
                         ? "bg-orange-400 rounded-full text-center  font-medium text-white px-3 py-1 capitalize"
-                        : submission.status=="approved"? "bg-green-400  font-medium rounded-full text-center text-white px-2 py-1 capitalize":submission.status=="reject"?"bg-red-400 rounded-full text-center text-white px-5 font-medium py-1 capitalize":""
+                        : submission.status == "approved"
+                        ? "bg-green-400  font-medium rounded-full text-center text-white px-2 py-1 capitalize"
+                        : submission.status == "reject"
+                        ? "bg-red-400 rounded-full text-center text-white px-5 font-medium py-1 capitalize"
+                        : ""
                     }
                   >
                     {submission.status}

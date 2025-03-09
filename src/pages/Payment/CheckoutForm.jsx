@@ -6,86 +6,87 @@ import { use } from "react";
 import { toast } from "react-toastify";
 import useCoins from "../../hooks/useCoins";
 
-const CheckoutForm = ({ setshowmodel,planCard }) => {
+const CheckoutForm = ({ setshowmodel, planCard }) => {
   const [error, seterror] = useState("");
   let stripe = useStripe();
   let elements = useElements();
-  let axiosPrivate=useAxiosPrivate()
-  const [clineSecret, setclineSecret] = useState('')
-  let {user}=useAuth()
-  let [coins,refetch]=useCoins()
-  
-let handleClineSecret=async()=>{
-    let {data}=await axiosPrivate.post('/create-checkout-session',planCard)
-  console.log(data);
-  
-  setclineSecret(data.client_secret);
-}
+  let axiosPrivate = useAxiosPrivate();
+  const [clineSecret, setclineSecret] = useState("");
+  let { user } = useAuth();
+  let [coins, refetch] = useCoins();
+  const [PurchaseCoinAdd, setPurchaseCoinAdd] = useState(0)
+
+  let handleClineSecret = async () => {
+
+    let { data } = await axiosPrivate.post(
+      "/create-checkout-session",
+      planCard
+    );
+    setPurchaseCoinAdd(data.coins);
+
+    setclineSecret(data.client_secret);
+  };
+
   useEffect(() => {
-    handleClineSecret()
-  }, [setclineSecret])
-  
+    handleClineSecret();
+  }, [setclineSecret]);
 
 
-console.log(planCard);
 
   let handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
       return;
     }
+
     const card = elements.getElement(CardElement);
     if (card == null) {
       return;
     }
+
     let { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card,
     });
+
     if (error) {
       console.log("payment error ", error);
       seterror(error.message);
     } else {
       console.log("payment method ", paymentMethod);
       seterror("");
-     
-      
     }
-  
-     let {paymentIntent}=await stripe.confirmCardPayment(clineSecret,
-      {
-        payment_method: {
-          card: card,
-          billing_details: {
-            name:user?.displayName,
-            email:user?.email,
-          },
+
+    let { paymentIntent } = await stripe.confirmCardPayment(clineSecret, {
+      payment_method: {
+        card: card,
+        billing_details: {
+          name: user?.displayName,
+          email: user?.email,
         },
-      }, 
-    );
+      },
+    });
     console.log(paymentIntent);
+    console.log(PurchaseCoinAdd);
     
-    if (paymentIntent.status=="succeeded") {
-       let res=await axiosPrivate.patch(`/users/buyer/${user?.email}`,{ coins: coins +(paymentIntent.amount/10) });
-       if (res.data.modifiedCount>0) {
-        toast.success(`You get ${(paymentIntent.amount/10)}`)
-        
-        setshowmodel(false)
-       }
-       
-       refetch()
+    if (paymentIntent.status == "succeeded") {
+      let res = await axiosPrivate.patch(`/users/buyer/${user?.email}`, {
+        coins: coins +PurchaseCoinAdd,
+      });
+      if (res.data.modifiedCount > 0) {
+        toast.success(`You get ${PurchaseCoinAdd}`);
 
+        setshowmodel(false);
+      }
 
-       
+      refetch();
     }
-   
-    
-  };
-  
-  
+    else{
+      toast.error(paymentIntent.status)
+    }
+  }
+
   return (
     <div className="p-5">
       <form className=" flex flex-col gap-3" onSubmit={handleSubmit}>
@@ -98,21 +99,23 @@ console.log(planCard);
                 "::placeholder": {
                   color: "#aab7c4",
                 },
-              
               },
               invalid: {
                 color: "#9e2146",
               },
-              
             },
           }}
         ></CardElement>
         <div className=" flex gap-3">
-          <button className="button w-full" type="submit" disabled={!stripe || !elements}>
+          <button
+            className="button w-full"
+            type="submit"
+            disabled={!stripe || !elements}
+          >
             Purchase Coine
           </button>
           <button onClick={() => setshowmodel(false)} className="button w-full">
-          Cancel
+            Cancel
           </button>
         </div>
       </form>

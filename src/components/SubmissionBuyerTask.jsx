@@ -18,9 +18,7 @@ const SubmissionBuyerTask = ({ totalPaidCoin, settotalPaidCoin }) => {
   let [coins, refetchCoins] = useCoins();
   let { user } = useAuth();
   const [showModel, setshowModel] = useState(false);
-  const [submissionDetails, setsubmissionDetails] = useState({})
-console.log(submissionDetails);
-
+  const [submissionDetails, setsubmissionDetails] = useState({});
 
   // data get form submission db
   let {
@@ -36,7 +34,7 @@ console.log(submissionDetails);
   });
 
   if (isLoading) {
-    <LoadingPage></LoadingPage>;
+   return <LoadingPage></LoadingPage>;
   }
 
   // this function for approve request
@@ -60,7 +58,6 @@ console.log(submissionDetails);
           toast("Approve Successfull");
           refetchTask();
           refetchCoins();
-          isBuyerRef();
         }
       }
     } catch (error) {
@@ -92,90 +89,153 @@ console.log(submissionDetails);
   };
 
   let handleViewSubmit = (task) => {
-    setsubmissionDetails(task)
+    setsubmissionDetails(task);
     setshowModel(true);
   };
 
   return (
     <div>
       <div className="overflow-x-auto">
-        <table className="table table-zebra text-center">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Photo</th>
-              <th>Worker Name</th>
-              <th>Title</th>
-              <th>Payable_Amount</th>
-              <th>View Submission</th>
-              <th>Approve Or Reject</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks?.map((task, idx) => (
-              <tr key={task._id}>
-                <th>{idx + 1}</th>
-                <td className="avatar">
-                  <div className="mask mask-squircle h-12 w-12">
-                    <img src={task?.worker_photo} alt="Task" />
-                  </div>
-                </td>
-                <td>{task?.worker_name}</td>
-                <td>{task?.task_title}</td>
-                <td>{task?.payable_amount}</td>
-                <td>
-                  <button
-                    onClick={() =>
-                      handleViewSubmit(
-                        task
-                      )
-                    }
-                    className="text-2xl "
-                  >
-                    <MdViewCarousel></MdViewCarousel>
-                  </button>
-                </td>
-                <td className="text-2xl flex items-center gap-2 justify-center">
-                  <button
-                    disabled={task?.status == "approved"}
-                    className={`${
-                      task?.status == "approved"
-                        ? " text-green-400"
-                        : task?.status == "reject"
-                        ? "hidden"
-                        : ""
-                    }`}
-                    onClick={() =>
-                      handleApproveReq(
-                        task?._id,
-                        task?.worker_email,
-                        task?.payable_amount
-                      )
-                    }
-                  >
-                    <IoCheckmarkDoneSharp />
-                  </button>
-                  <button
-                    onClick={() => handleRejectFunc(task?.taskId, task?._id)}
-                    className={`${
-                      task?.status == "reject"
-                        ? " text-red-600"
-                        : task?.status == "approved"
-                        ? " hidden"
-                        : ""
-                    }`}
-                  >
-                    {task?.status == "reject" ? (
-                      <RxCross2 />
-                    ) : (
-                      <MdDeleteForever />
-                    )}
-                  </button>
-                </td>
+        <div className="hidden md:block">
+           {/* Standard Table for larger screens */}
+          <table className="table table-zebra text-center">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Photo</th>
+                <th>Worker Name</th>
+                <th>Title</th>
+                <th>Payable_Amount</th>
+                <th>View Submission</th>
+                <th>Approve Or Reject</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {tasks?.map((task, idx) => (
+                <tr key={task._id}>
+                  <th>{idx + 1}</th>
+                  <td className="avatar">
+                    <div className="mask mask-squircle h-12 w-12">
+                      <img src={task?.worker_photo} alt="Task" />
+                    </div>
+                  </td>
+                  <td>{task?.worker_name}</td>
+                  <td>{task?.task_title}</td>
+                  <td>{task?.payable_amount}</td>
+                  <td>
+                    <button
+                      onClick={() => handleViewSubmit(task)}
+                      className="text-2xl "
+                    >
+                      <MdViewCarousel></MdViewCarousel>
+                    </button>
+                  </td>
+                  <td className="text-2xl flex items-center gap-2 justify-center">
+                    <button
+                      disabled={task?.status == "approved"}
+                      className={`${
+                        task?.status == "approved"
+                          ? " text-green-400"
+                          : task?.status == "reject"
+                          ? "hidden"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handleApproveReq(
+                          task?._id,
+                          task?.worker_email,
+                          task?.payable_amount
+                        )
+                      }
+                    >
+                      <IoCheckmarkDoneSharp />
+                    </button>
+                    <button
+                      onClick={() => handleRejectFunc(task?.taskId, task?._id)}
+                      className={`${
+                        task?.status == "reject"
+                          ? " text-red-600"
+                          : task?.status == "approved"
+                          ? " hidden"
+                          : ""
+                      }`}
+                    >
+                      {task?.status == "reject" ? (
+                        <RxCross2 />
+                      ) : (
+                        <MdDeleteForever />
+                      )}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {/* Mobile View: Card Format */}
+        <div className="md:hidden">
+  {tasks?.map((task, idx) => (
+    <div
+      key={task._id}
+      className="bg-gray-700 p-4 rounded-lg mb-4 shadow-md w-full"
+    >
+      <div className="flex items-center gap-3">
+        <div className="mask mask-squircle h-12 w-12">
+          <img src={task?.worker_photo} alt="worker" />
+        </div>
+        <div>
+          <p className="font-semibold">{task?.worker_name}</p>
+          <p className="text-sm text-gray-400">{task?.worker_email}</p>
+        </div>
+      </div>
+      <div className="mt-2">
+        <p>
+          <span className="font-semibold">Title:</span> {task?.task_title}
+        </p>
+        <p>
+          <span className="font-semibold">Payable Amount:</span> {task?.payable_amount}$
+        </p>
+      </div>
+      <div className="flex justify-between mt-3">
+        <button
+          onClick={() => handleViewSubmit(task)}
+          className="text-blue-400 text-xl"
+        >
+          <MdViewCarousel />
+        </button>
+
+        {task?.status === "approved" ? (
+          <span className="py-1 px-3 bg-green-400 text-white text-xs font-semibold rounded-full">
+            Approved
+          </span>
+        ) : (
+          <div className="flex gap-2">
+            <button
+              disabled={task?.status === "approved"}
+              onClick={() =>
+                handleApproveReq(task?._id, task?.worker_email, task?.payable_amount)
+              }
+              className={`px-4 py-1 rounded-md text-sm ${
+                task?.status === "approved" ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 text-white"
+              }`}
+            >
+              Approve
+            </button>
+            <button
+              onClick={() => handleRejectFunc(task?.taskId, task?._id)}
+              className={`px-4 py-1 rounded-md text-sm ${
+                task?.status === "reject" ? "bg-red-500 text-white" : "bg-gray-500"
+              }`}
+            >
+              Reject
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  ))}
+</div>
+
       </div>
       {showModel && (
         <ViewSubmission

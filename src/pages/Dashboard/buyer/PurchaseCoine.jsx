@@ -12,21 +12,26 @@ const PurchaseCoine = () => {
 
   let purchaseCoinCard = [
     {
-      coine: 100,
+      coine: 10,
+      price: 1,
+    },
+    {
+      coine: 150,
       price: 10,
     },
     {
       coine: 500,
-      price: 50,
+      price: 20,
     },
     {
       coine: 1000,
-      price: 100,
+      price: 35,
     },
   ];
 
   return (
-    <div className=" dark:text-white">
+    <div className=" dark:text-white border rounded-2xl border-gray-600 p-5">
+      <h2 className="text-3xl font-semibold text-center mb-5">Purches Coin</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {purchaseCoinCard.map((plan, i) => (
           <div
