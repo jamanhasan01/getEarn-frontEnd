@@ -4,11 +4,13 @@ import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import moment from "moment";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) => {
   let { user } = useAuth();
   let currentTime = moment().format("lll");
+  let navigate=useNavigate()
 
   let axiosPrivate = useAxiosPrivate();
 
@@ -24,6 +26,8 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
     task_title,
     _id,
   } = task;
+  console.log(task);
+  
   // ----------------
   let axiosPublic = useAxiosPublic();
   //   this state for when model over scroll will be hide
@@ -58,7 +62,7 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
-      let imageUrl = imgUploadRes.data?.data?.url;
+      let imageUrl = imgUploadRes?.data?.data?.url;
       if (!imageUrl) {
         toast.error("Image upload failed");
         return;
@@ -90,6 +94,7 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
         await axiosPrivate.patch(`/task/${_id}/workers?minus_worker=${-1}`)
         refetch()
         setShowTaskSubmit(false)
+        navigate('/dashboard/tasklist')
       }
     } catch (error) {
       console.error("Error:", error.message);
@@ -126,7 +131,7 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
                     required
                   />
                 </div>
-                <button type="submit" className="btn btn-primary mt-3">
+             <button type="submit" className="btn btn-primary mt-3">
                   Upload
                 </button>
               </form>

@@ -14,14 +14,16 @@ const CheckoutForm = ({ setshowmodel, planCard }) => {
   const [clineSecret, setclineSecret] = useState("");
   let { user } = useAuth();
   let [coins, refetch] = useCoins();
-  const [PurchaseCoinAdd, setPurchaseCoinAdd] = useState(0)
+  const [PurchaseCoinAdd, setPurchaseCoinAdd] = useState(0);
+
 
   let handleClineSecret = async () => {
-
     let { data } = await axiosPrivate.post(
       "/create-checkout-session",
       planCard
     );
+ 
+
     setPurchaseCoinAdd(data.coins);
 
     setclineSecret(data.client_secret);
@@ -30,8 +32,6 @@ const CheckoutForm = ({ setshowmodel, planCard }) => {
   useEffect(() => {
     handleClineSecret();
   }, [setclineSecret]);
-
-
 
   let handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,25 +67,38 @@ const CheckoutForm = ({ setshowmodel, planCard }) => {
         },
       },
     });
-    console.log(paymentIntent);
-    console.log(PurchaseCoinAdd);
-    
+   
+    let payment_info={
+      card_brand:paymentMethod.card.brand,
+      country:paymentMethod.card.country,
+      last_num_of_card:paymentMethod.card.last4,
+      user_email:user?.email,
+      user_name:user?.displayName,
+      user_photo:user?.photoURL,
+      doller_amount:planCard?.price
+    }
+
+
     if (paymentIntent.status == "succeeded") {
       let res = await axiosPrivate.patch(`/users/buyer/${user?.email}`, {
-        coins: coins +PurchaseCoinAdd,
+        coins: coins + PurchaseCoinAdd,
       });
       if (res.data.modifiedCount > 0) {
         toast.success(`You get ${PurchaseCoinAdd}`);
+
+        let res=await axiosPrivate.post('/payment_history',payment_info)
+        console.log(res);
+        
+
 
         setshowmodel(false);
       }
 
       refetch();
+    } else {
+      toast.error(paymentIntent.status);
     }
-    else{
-      toast.error(paymentIntent.status)
-    }
-  }
+  };
 
   return (
     <div className="p-5">

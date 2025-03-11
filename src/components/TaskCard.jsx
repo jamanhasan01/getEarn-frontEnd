@@ -5,7 +5,7 @@ import useTasks from "../hooks/useTasks";
 
 const TaskCard = ({ task,refetch}) => {
   const [showTaskModel, setshowTaskModel] = useState(false);
-  const [showTaskSubmit, setshowTaskSubmit] = useState(false);
+
   let {
     buyer_email,
     completion_date,
@@ -22,17 +22,14 @@ const TaskCard = ({ task,refetch}) => {
     setshowTaskModel(true);
   };
 
-  let handleTaskSubmit = () => {
-    setshowTaskSubmit(true);
 
-  };
 
   return (
 <>
         
 {required_workers>=1 &&
    
-   <div className="border p-3 rounded-2xl flex flex-col gap-2">
+   <div className="border border-gray-500 p-3 rounded-2xl flex flex-col gap-2 bg-black/30">
      <img
        className="w-full h-[200px] object-cover rounded-2xl"
        src={image}
@@ -40,30 +37,23 @@ const TaskCard = ({ task,refetch}) => {
      />
      <h3 className="text-2xl font-semibold">{task_title}</h3>
      <div className="flex justify-between items-center font-semibold text-xl">
-       <h4>Coine : {payable_amount}</h4>
-       <h4>{completion_date}</h4>
+       <h4 className="text-lg">Coine : {payable_amount}</h4>
+       <h4 className="text-lg">{completion_date}</h4>
      </div>
 
-     <h3 className="text-xl">Available : {required_workers}</h3>
+     <h3 className="text-base">Available : {required_workers}</h3>
      <div className="flex justify-between">
        <button onClick={handleShowTask} className="button bg">
          View Task
        </button>
-       <button onClick={handleTaskSubmit} className="button">
-         Submit
-       </button>
+      
      </div>
      <TaskDetailsModel
        showTaskModel={showTaskModel}
        setshowTaskModel={setshowTaskModel}
        task={task}
      ></TaskDetailsModel>
-     <TaskSubmitModel
-       showTaskSubmit={showTaskSubmit}
-       setShowTaskSubmit={setshowTaskSubmit}
-       task={task}
-       refetch={refetch}
-     ></TaskSubmitModel>
+   
    </div>
    }
 </>

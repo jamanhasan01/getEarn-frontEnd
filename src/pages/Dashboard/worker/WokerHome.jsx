@@ -127,10 +127,10 @@ if (isLoading) {
           </table>
          </div>
          {/* Cards for Mobile */}
-  <div className="block md:hidden space-y-4">
+  <div className="flex flex-col md:hidden space-y-4">
     {approve_data?.map((submission, i) => (
-      <div key={submission._id} className="bg-gray-700 p-4 rounded-lg shadow-md">
-        <div className="flex items-center gap-3">
+      <div key={submission._id} className="bg-gray-700 p-5 rounded-lg shadow-md">
+        <div className="flex flex-col items-start gap-3">
           <div className="avatar">
             <div className="mask mask-squircle h-16 w-16">
               <img src={submission?.taskImage} alt="Task Image" />
@@ -143,8 +143,7 @@ if (isLoading) {
               Earned: {submission.payable_amount} Coins
             </p>
           </div>
-        </div>
-        <div className="mt-3 text-right">
+          <div className=" text-right">
           <span
             className={`px-3 py-1 text-sm rounded-full font-medium capitalize text-white 
               ${submission.status === "pending" ? "bg-orange-500" : ""}
@@ -154,6 +153,8 @@ if (isLoading) {
             {submission.status}
           </span>
         </div>
+        </div>
+    
       </div>
     ))}
   </div>

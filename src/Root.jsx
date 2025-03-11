@@ -5,11 +5,14 @@ import { Navigate, Outlet } from "react-router-dom";
 import useAuth from "./hooks/useAuth";
 import Navbar from "./shared/Navbar";
 import Footer from "./shared/Footer";
+import LoadingPage from "./shared/LoadingPage";
 
 const Root = () => {
   let { loading,user } = useAuth();
+  console.log(user);
+  
   if (loading) {
-    return;
+    return <LoadingPage></LoadingPage>
   }
  
 

@@ -17,6 +17,7 @@ import MySubmissions from "../pages/Dashboard/worker/MySubmissions.jsx";
 import Withdrawals from "../pages/Dashboard/worker/Withdrawals.jsx";
 
 import VedioPlayer from "../components/VedioPlayer.jsx";
+import PaymentHistory from "../pages/Dashboard/buyer/PaymentHistory.jsx";
 
 
 
@@ -91,7 +92,11 @@ let router=createBrowserRouter([
                 path:'withdrawals',
                 element:<Withdrawals></Withdrawals>
             },
-        ]
+            {
+                path:'payment_history',
+                element:<PaymentHistory></PaymentHistory>
+            } ,     
+          ]
     }
 ])
 export default router

@@ -113,9 +113,9 @@ const Withdrawals = () => {
   };
 
   return (
-    <section>
-      <div className=" h-screen flex items-center justify-center text-white">
-        <div className="card bg-gray-800 p-6 w-full max-w-lg shadow-lg rounded-lg">
+    <section className="flex items-center justify-center p-3 md:p-0 h-full w-full text-white">
+   
+        <div className="card  bg-gray-800 p-6 w-full max-w-lg shadow-lg rounded-lg">
           <form className="space-y-4" onSubmit={handleSubmit}>
             <h2 className="text-2xl font-semibold text-center">Withdraw</h2>
 
@@ -190,7 +190,7 @@ const Withdrawals = () => {
             </div>
           </form>
         </div>
-      </div>
+ 
     </section>
   );
 };

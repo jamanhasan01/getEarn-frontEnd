@@ -39,8 +39,8 @@ const DashBoard = () => {
   let [isAdmin] = useAdmin();
   let [isBuyer, adminLoading] = useBuyer();
   let [isWorker] = useWorker();
-  const [asideShow, setasideShow] = useState(false)
-  const [showSidebar, setshowSidebar] = useState(false);
+
+  const [showSidebar, setshowSidebar] = useState(true);
 
   if (adminLoading || loading) {
     return <LoadingPage />;
@@ -282,8 +282,8 @@ const DashBoard = () => {
 
         <div
           className={`transition-all duration-300 ${
-            showSidebar ? "ml-[3rem] w-[calc(100%-3rem)]" : "ml-[20%] w-[80%]"
-          } min-h-screen p-2 mt-10`}
+            showSidebar ? "ml-[3rem] w-full" : "ml-[20%] w-[80%]"
+          } h-[calc(100vh- 60px)]  md:p-6 my-16`}
         >
           {location.pathname === "/dashboard" && (
             <>

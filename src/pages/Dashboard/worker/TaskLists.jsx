@@ -3,7 +3,7 @@ import TaskCards from '../../../components/TaskCards'
 
 const TaskLists = () => {
   return (
-    <div>
+    <div className=''>
       <TaskCards></TaskCards>
     </div>
   )
