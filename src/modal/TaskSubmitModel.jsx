@@ -26,7 +26,7 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
     task_title,
     _id,
   } = task;
-  console.log(task);
+
   
   // ----------------
   let axiosPublic = useAxiosPublic();
@@ -74,7 +74,7 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
       let taskSubmissions = {
         taskId: _id,
         buyer_email,
-        buyer_name:user?.displayName,
+        
         payable_amount,
         worker_email: user?.email,
         worker_name: user?.displayName,
@@ -94,7 +94,7 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
         await axiosPrivate.patch(`/task/${_id}/workers?minus_worker=${-1}`)
         refetch()
         setShowTaskSubmit(false)
-        navigate('/dashboard/tasklist')
+        navigate('/dashboard/worker/tasklist')
       }
     } catch (error) {
       console.error("Error:", error.message);

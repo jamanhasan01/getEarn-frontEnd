@@ -31,6 +31,9 @@ const VedioPlayer = () => {
     },
   });
 
+ 
+  
+
   const isPlayable = ReactPlayer.canPlay(task?.task_url);
 
   // Function to check watched time

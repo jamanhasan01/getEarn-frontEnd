@@ -23,6 +23,8 @@ const TaskDetailsModel = ({ showTaskModel, setshowTaskModel, task }) => {
     task_title,
     _id,
   } = task;
+
+  
   useEffect(() => {
     if (showTaskModel) {
       document.body.style.overflow = "hidden"; // Disable scrolling

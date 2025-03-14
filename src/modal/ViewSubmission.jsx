@@ -19,6 +19,7 @@ const ViewSubmission = ({ showModel, setshowModel, submissionDetails, setsubmiss
   } = submissionDetails;
 
 
+console.log(buyer_email);
 
   const handleModelClose = () => {
     setsubmissionDetails({});

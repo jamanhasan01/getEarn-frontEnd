@@ -22,6 +22,8 @@ const WokerHome = () => {
     },
   });
 
+
+  
 if (isLoading) {
    return <LoadingPage></LoadingPage>
 }
@@ -82,14 +84,14 @@ if (isLoading) {
           Approved Submissions
         </h2>
         <div className="overflow-x-auto">
-         <div className="hidden md:block">
+       { approve_data.length >0 && <div className="hidden md:block">
          <table className="table w-full text-gray-200">
             {/* Table Header */}
             <thead className="bg-gray-700">
               <tr >
                 <th className="py-3 text-center">#</th>
                 <th className="py-3 text-center">Title</th>
-                <th className="py-3 text-center">Buyer Name</th>
+                <th className="py-3 text-center">Buyer Email</th>
                 <th className="py-3 text-center">Payable Amount</th>
                 <th className="py-3 text-center">Status</th>
               </tr>
@@ -111,7 +113,7 @@ if (isLoading) {
                       </div>
                     </div>
                   </td>
-                  <td className="text-center">{submission.buyer_name}</td>
+                  <td className="text-center">{submission.buyer_email}</td>
                   <td className="text-center font-bold text-lg">
                     {submission.payable_amount}
                   </td>
@@ -129,10 +131,10 @@ if (isLoading) {
               ))}
             </tbody>
           </table>
-         </div>
+         </div>}
          {/* Cards for Mobile */}
   <div className="flex flex-col md:hidden space-y-4">
-    {approve_data?.map((submission, i) => (
+    {approve_data && approve_data?.map((submission, i) => (
       <div key={submission._id} className="bg-gray-700 p-5 rounded-lg shadow-md">
         <div className="flex flex-col items-start gap-3">
           <div className="avatar">
@@ -142,7 +144,7 @@ if (isLoading) {
           </div>
           <div className="flex-1">
             <h3 className="font-bold text-lg">{submission.task_title}</h3>
-            <p className="text-gray-400 text-sm">Buyer: {submission.buyer_name}</p>
+            <p className="text-gray-400 text-sm">Buyer: {submission.buyer_email}</p>
             <p className="text-green-400 font-bold text-sm">
               Earned: {submission.payable_amount} Coins
             </p>
