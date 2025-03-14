@@ -18,85 +18,96 @@ import Withdrawals from "../pages/Dashboard/worker/Withdrawals.jsx";
 
 import VedioPlayer from "../components/VedioPlayer.jsx";
 import PaymentHistory from "../pages/Dashboard/buyer/PaymentHistory.jsx";
+import WorkerRoute from "./privet_route/WorkerRoute.jsx";
+import BuyerRoute from "./privet_route/BuyerRoute.jsx";
+import AdminRoute from "./privet_route/AdminRoute.jsx";
 
+let router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <ErrorPage></ErrorPage>,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "signin",
+        element: <SignIn />,
+      },
+      {
+        path: "signup",
+        element: <SignUp />,
+      },
+      {
+        path: "vedioplayer/:id",
+        element: <VedioPlayer></VedioPlayer>,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <DashBoard />,
+    errorElement: <ErrorPage></ErrorPage>,
+    children: [
+      // --------admin----------
 
+      {
+        path: "admin",
+        element: <AdminRoute></AdminRoute>,
+        children: [
+          {
+            path: "manageusers",
+            element: <ManageUsers></ManageUsers>,
+          },
+          {
+            path: "managetasks",
+            element: <ManageTasks></ManageTasks>,
+          },
+        ],
+      },
 
-let router=createBrowserRouter([
-    {
-        path:"/",
-        element:<Root/>,
-        errorElement:<ErrorPage></ErrorPage>,
-        children:[
-            {
-                path:'/',
-                element:<Home/>
-            },
-            {
-                path:'signin',
-                element:<SignIn/>
-            },
-            {
-                path:'signup',
-                element:<SignUp/>
-            },
-            {
-                path:'vedioplayer/:id',
-                element:<VedioPlayer></VedioPlayer>
-            }
-        ]
-    },{
-        path:'/dashboard',
-        element:<DashBoard></DashBoard>,
-        errorElement:<ErrorPage></ErrorPage>,
-        children:[
-            // --------admin----------
-         
-            {
-                path:'manageusers',
-                element:<ManageUsers></ManageUsers>
-            },
-            {
-                path:'managetasks',
-                element:<ManageTasks></ManageTasks>
-            },
+      // ----------buyer----------
+      {
+        path: "buyer",
+        element: <BuyerRoute></BuyerRoute>,
+        children: [
+          {
+            path: "addtask",
+            element: <AddTask></AddTask>,
+          },
+          {
+            path: `updatetask/:id`,
+            element: <UpdateTask></UpdateTask>,
+          },
+          {
+            path: "mytasks",
+            element: <MyTasks></MyTasks>,
+          },
+          {
+            path: "purchasecoine",
+            element: <PurchaseCoine></PurchaseCoine>,
+          },
+          {
+            path: "payment_history",
+            element: <PaymentHistory></PaymentHistory>,
+          },
+        ],
+      },
 
-            // ----------buyer----------
-        
-            {
-                path:'addtask',
-                element:<AddTask></AddTask>
-            },
-            {
-                path:`updatetask/:id`,
-                element:<UpdateTask></UpdateTask>
-            }
-            ,
-            {
-                path:'mytasks',
-                element:<MyTasks></MyTasks>
-            },
-            {
-                path:'purchasecoine',
-                element:<PurchaseCoine></PurchaseCoine>
-            },
-            // ----------worker-----------
-            {
-                path:'tasklist',
-                element:<TaskLists></TaskLists>
-            },
-            {
-                path:'mysubmissions',
-                element:<MySubmissions></MySubmissions>
-            },
-            {
-                path:'withdrawals',
-                element:<Withdrawals></Withdrawals>
-            },
-            {
-                path:'payment_history',
-                element:<PaymentHistory></PaymentHistory>
-            } ,     
-          ]
-    }
-])
-export default router
+      // ----------worker-----------
+      {
+        path: "worker",
+        element: <WorkerRoute />, // ✅ Protect all worker routes
+        children: [
+          { path: "tasklist", element: <TaskLists /> }, // ✅ Child inside WorkerRoute
+          { path: "mysubmissions", element: <MySubmissions /> },
+          { path: "withdrawals", element: <Withdrawals /> },
+        ],
+      },
+     
+    ],
+  },
+]);
+export default router;

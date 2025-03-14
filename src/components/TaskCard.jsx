@@ -36,14 +36,14 @@ const TaskCard = ({ task,refetch}) => {
        alt=""
      />
      <h3 className="text-2xl font-semibold">{task_title}</h3>
-     <div className="flex justify-between items-center font-semibold text-xl">
-       <h4 className="text-lg">Coine : {payable_amount}</h4>
-       <h4 className="text-lg">{completion_date}</h4>
+     <div className="flex justify-between items-center font-semibold text-base">
+       <h4 className="">Coine : {payable_amount}</h4>
+       <h4 className="">{completion_date}</h4>
      </div>
 
-     <h3 className="text-base">Available : {required_workers}</h3>
+     <h3 className="text-base font-medium">Available : {required_workers}</h3>
      <div className="flex justify-between">
-       <button onClick={handleShowTask} className="button bg">
+       <button onClick={handleShowTask} className="button bg w-full">
          View Task
        </button>
       

@@ -2,11 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import LoadingPage from "../../../shared/LoadingPage";
+import useWorker from "../../../hooks/useWorker";
 
 const WokerHome = () => {
   let axiosPrivate = useAxiosPrivate();
   let { user } = useAuth();
-
+  let [isWorker]=useWorker()
+  console.log(isWorker.worker);
+  
   let {
     data: tasks = [],
     refetch: refetchTask,
@@ -15,13 +18,14 @@ const WokerHome = () => {
     queryKey: ["tasks", user?.email],
     queryFn: async () => {
       let res = await axiosPrivate(`/submission_task/worker/${user?.email}`);
-      return res.data;
+      return res.data.data
     },
   });
 
 if (isLoading) {
    return <LoadingPage></LoadingPage>
 }
+
 
   // Count pending submissions
   let pending_count = tasks?.reduce((acc, item) => {

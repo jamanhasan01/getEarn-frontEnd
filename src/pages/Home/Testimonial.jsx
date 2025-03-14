@@ -1,14 +1,10 @@
 import React from "react";
 import Title from "../../components/Title";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination ,EffectCoverflow} from "swiper/modules";
-
-
-
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
-
+import { Pagination, EffectCoverflow } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
 
 const Testimonial = () => {
   const testimonials = [
@@ -55,8 +51,8 @@ const Testimonial = () => {
   ];
 
   return (
-    <section className="bg-black/40">
-      <div className="container">
+    <section className="bg-white dark:bg-gray-900 py-12">
+      <div className="container mx-auto px-4">
         <Title
           title="What Our Users Say"
           subtitle="See what our Top Workers & Buyers have to say about their experience with MicTask!"
@@ -64,34 +60,38 @@ const Testimonial = () => {
 
         {/* Swiper Slider */}
         <Swiper
-           effect={'coverflow'}
-           grabCursor={true}
-           centeredSlides={true}
-           slidesPerView={'auto'}
-           coverflowEffect={{
-             rotate: 50,
-             stretch: 0,
-             depth: 100,
-             modifier: 1,
-             slideShadows: true,
-           }}
-           pagination={true}
-           modules={[EffectCoverflow, Pagination]}
-           className="mySwiper"
+          effect={"coverflow"}
+          grabCursor={true}
+          centeredSlides={true}
+          slidesPerView={"auto"}
+          coverflowEffect={{
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          pagination={true}
+          modules={[EffectCoverflow, Pagination]}
+          className="mySwiper"
         >
           {testimonials.map((testimonial) => (
             <SwiperSlide
               key={testimonial.id}
-              className=" p-5 border border-gray-600 shadow-md rounded-xl !w-80  "
+              className="p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-md rounded-xl !w-80"
             >
               <div className="flex flex-col items-center text-center">
                 <img
                   src={testimonial.photo}
                   alt={testimonial.name}
-                  className="w-16 h-16 rounded-full mb-4"
+                  className="w-16 h-16 rounded-full mb-4 border-2 border-orange-400 dark:border-orange-600"
                 />
-                <h3 className="text-lg font-semibold">{testimonial.name}</h3>
-                <p className="text-gray-400 mt-2">{testimonial.quote}</p>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                  {testimonial.name}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mt-2">
+                  {testimonial.quote}
+                </p>
               </div>
             </SwiperSlide>
           ))}

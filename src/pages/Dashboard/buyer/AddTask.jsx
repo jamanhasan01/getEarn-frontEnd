@@ -165,7 +165,7 @@ const AddTask = () => {
             className="input input-bordered bg-gray-700 text-white w-full"
             required
           />
-          <button className="btn bg-blue-600 hover:bg-blue-700 text-white w-full">
+          <button className="btn  bg-secondary text-white hover:bg-secondary hover:bg-opacity-50  w-full">
             Add Task
           </button>
         </form>

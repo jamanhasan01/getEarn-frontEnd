@@ -7,11 +7,13 @@ import LoadingPage from "../shared/LoadingPage";
 const TaskCards = () => {
   let [tasks,refetch,isLoading] = useTasks();
   const filteredTasks = tasks?.filter((task) => {
-    return moment(task?.completion_date).isSameOrAfter(moment(), "day");
+    return moment(tasks?.completion_date).isSameOrAfter(moment(), "day");
   });
   if (isLoading) {
     <LoadingPage></LoadingPage>
   }
+
+  
   return (
     <section className=" p-3 md:p-5 ">
       <h2 className="text-3xl font-semibold pb-8 text-center">Task List</h2>

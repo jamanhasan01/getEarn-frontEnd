@@ -7,7 +7,7 @@ const useWorker = () => {
   let { user, loading } = useAuth();
   let axiosPrivate = useAxiosPrivate();
 
-  const { data: isWorker, isLoading: buyerLoading ,refetch} = useQuery({
+  const { data: isWorker, isLoading: workerLoading ,refetch} = useQuery({
     queryKey: [user?.email, "isWorker"],
     enabled: !loading,
 
@@ -20,7 +20,7 @@ const useWorker = () => {
 
   
  
-  return [isWorker, buyerLoading,refetch];
+  return [isWorker, workerLoading,refetch];
 };
 
 export default useWorker;

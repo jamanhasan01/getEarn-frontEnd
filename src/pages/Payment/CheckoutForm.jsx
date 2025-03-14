@@ -75,7 +75,8 @@ const CheckoutForm = ({ setshowmodel, planCard }) => {
       user_email:user?.email,
       user_name:user?.displayName,
       user_photo:user?.photoURL,
-      doller_amount:planCard?.price
+      doller_amount:planCard?.price,
+      date:new Date()
     }
 
 

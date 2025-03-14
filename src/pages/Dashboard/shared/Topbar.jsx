@@ -1,46 +1,51 @@
 import { Link } from "react-router-dom";
 import { FaCoins } from "react-icons/fa6";
-
-import useCoins from "../../../hooks/useCoins";
+import default_avatar from "../../../assets/default_avatar.jpg";
 import useAuth from "../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import LoadingPage from "../../../shared/LoadingPage";
 
 const Topbar = () => {
-  let {user}=useAuth()
-  let axiosPrivate=useAxiosPrivate()
+  let { user } = useAuth();
+  let axiosPrivate = useAxiosPrivate();
 
- let {data:user_info,isLoading}=useQuery({
-    queryKey:[user?.email],
-    queryFn:async()=>{
-      let res=await axiosPrivate(`/user/${user?.email}`)
-      return res?.data
-      
-    }
-  })
+  let { data: user_info, isLoading } = useQuery({
+    queryKey: [user?.email],
+    queryFn: async () => {
+      let res = await axiosPrivate(`/user/${user?.email}`);
+      return res?.data;
+    },
+  });
   if (isLoading) {
-    return <LoadingPage></LoadingPage>
+    return <LoadingPage></LoadingPage>;
   }
 
-  
-  
   return (
     <div className="navbar bg-gray-700 border-b border-gray-600 fixed z-10 items-center capitalize">
       <div className="navbar-start"></div>
 
       <div className="navbar-end">
         <div className="flex flex-col pr-2">
-        <h4 className="text-white/80"><span className="font-semibold">Role</span> : {user_info?.role}</h4>
+          <h4 className="text-white/80">
+            <span className="font-semibold">Role</span> : {user_info?.role}
+          </h4>
           <h4 className="flex items-center text-2xl font-semibold gap-2 text-[#FFD700]">
             {" "}
             {user_info?.coins}
             <FaCoins />
           </h4>
-  
         </div>
         <div className="flex flex-col  px-2 border-gray-400 justify-center items-center">
-          <img className="w-10 rounded-badge border-2 border-gray-500" src={user?.photoURL} alt="" />
+          <img
+            className="w-10 rounded-badge border-2 border-gray-500"
+            src={user?.photoURL || default_avatar} // Default image if no URL is provided
+            alt="User Avatar"
+            onError={(e) => {
+              e.target.onerror = null; // Prevent infinite loop
+              e.target.src = default_avatar // Replace with your default image URL
+            }}
+          />
           <h4 className="text-sm font-semibold ">{user?.displayName}</h4>
         </div>
         <button className="btn btn-ghost btn-circle">

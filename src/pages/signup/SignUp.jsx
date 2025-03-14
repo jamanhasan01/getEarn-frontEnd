@@ -12,14 +12,34 @@ const SignUp = () => {
     e.preventDefault();
     let form = new FormData(e.target);
     let name = form.get("username");
-    let photo = form.get("photo");
     let email = form.get("email");
     let role = form.get("role");
     let password = form.get("password");
+    let imageFile = e.target.image.files[0];
+
+    if (!imageFile) {
+      toast.error("Please select an image");
+      return;
+    }
+    let imageDbApi = import.meta.env.VITE_IMGDB_API;
+
     try {
-      
+      let imageFormData = new FormData();
+      imageFormData.append("image", imageFile);
+      let imgUploadRes = await axiosPublic.post(
+        `https://api.imgbb.com/1/upload?key=${imageDbApi}`,
+        imageFormData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      let imageUrl = imgUploadRes.data?.data?.url;
+      if (!imageUrl) {
+        toast.error("Image upload failed");
+        return;
+      }
+
       let { user } = await createUser(email, password);
-      await updateUserProfile(name, photo);
+      await updateUserProfile(name, imageUrl);
       setuser(user);
 
       // this object send in user database
@@ -27,9 +47,8 @@ const SignUp = () => {
         email,
         name,
         role,
-        photo,
-        coinPaid:0
-        
+        photo: imageUrl,
+        coinPaid: 0,
       };
       let { data } = await axiosPublic.post("/users", userInfo);
       if (data.insertedId) {
@@ -64,22 +83,6 @@ const SignUp = () => {
                   required
                 />
               </div>
-              {/* photo url */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Photo Url</span>
-                </label>
-                <input
-                  type="url"
-                  name="photo"
-                  placeholder="photo url"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
-            </div>
-            {/* grid leyer */}
-            <div className="grid md:grid-cols-2 gap-3">
               {/* email */}
               <div className="form-control">
                 <label className="label">
@@ -93,6 +96,9 @@ const SignUp = () => {
                   required
                 />
               </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-3">
               {/* role */}
               <div className="form-control">
                 <label className="label">
@@ -107,8 +113,7 @@ const SignUp = () => {
                   <option value={"buyer"}>Buyer</option>
                 </select>
               </div>
-            </div>
-            {/* password */}
+              {/* password */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Password</span>
@@ -121,12 +126,27 @@ const SignUp = () => {
                 required
               />
             </div>
+            </div>
+
+            
+            {/* photo url */}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Upload Photo</span>
+              </label>
+              <input
+                type="file"
+                name="image"
+                className="file-input file-input-bordered w-full bg-gray-700 text-white"
+                required
+              />
+            </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Register</button>
             </div>
           </form>
           <p className="text-center mt-2">
-            already have an account ? 
+            already have an account ?
             <Link className=" underline font-bold" to={"/signin"}>
               Sign-In
             </Link>
