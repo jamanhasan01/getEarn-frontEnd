@@ -1,14 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaCoins } from "react-icons/fa6";
 import default_avatar from "../../../assets/default_avatar.jpg";
 import useAuth from "../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import LoadingPage from "../../../shared/LoadingPage";
+import NavBarOfNotifications from "../../../components/NavBarOfNotifications";
+import { useState } from "react";
 
 const Topbar = () => {
   let { user } = useAuth();
   let axiosPrivate = useAxiosPrivate();
+  const [showNotificatoinBar, setshowNotificatoinBar] = useState(false);
+  let location = useLocation();
+
+  console.log(showNotificatoinBar);
+  
 
   let { data: user_info, isLoading } = useQuery({
     queryKey: [user?.email],
@@ -43,12 +50,13 @@ const Topbar = () => {
             alt="User Avatar"
             onError={(e) => {
               e.target.onerror = null; // Prevent infinite loop
-              e.target.src = default_avatar // Replace with your default image URL
+              e.target.src = default_avatar; // Replace with your default image URL
             }}
           />
           <h4 className="text-sm font-semibold ">{user?.displayName}</h4>
         </div>
-        <button className="btn btn-ghost btn-circle">
+        <div>
+        {location.pathname !=='/dashboard/notifications' && <button onClick={()=>setshowNotificatoinBar(!showNotificatoinBar)} className="btn btn-ghost btn-circle">
           <div className="indicator">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +74,11 @@ const Topbar = () => {
             </svg>
             <span className="badge badge-xs badge-primary indicator-item"></span>
           </div>
-        </button>
+        </button>} 
+        </div>
+      </div>
+      <div className=" absolute right-0 top-20">
+        {showNotificatoinBar && <NavBarOfNotifications setshowNotificatoinBar={setshowNotificatoinBar} ></NavBarOfNotifications>}
       </div>
     </div>
   );

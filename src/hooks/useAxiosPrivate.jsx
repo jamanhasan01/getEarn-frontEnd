@@ -3,7 +3,7 @@ import axios from "axios";
 import useAuth from "./useAuth";
 
 const axiosPrivate = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://localhost:9000",
 });
 
 const useAxiosPrivate = () => {

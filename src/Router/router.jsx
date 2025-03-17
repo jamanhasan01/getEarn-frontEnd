@@ -21,6 +21,7 @@ import PaymentHistory from "../pages/Dashboard/buyer/PaymentHistory.jsx";
 import WorkerRoute from "./privet_route/WorkerRoute.jsx";
 import BuyerRoute from "./privet_route/BuyerRoute.jsx";
 import AdminRoute from "./privet_route/AdminRoute.jsx";
+import Notifications from "../components/Notifications.jsx";
 
 let router = createBrowserRouter([
   {
@@ -52,7 +53,10 @@ let router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
     children: [
       // --------admin----------
-
+      {
+        path:"notifications",
+        element:<Notifications></Notifications>
+      },
       {
         path: "admin",
         element: <AdminRoute></AdminRoute>,

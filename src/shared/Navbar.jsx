@@ -2,10 +2,14 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import default_avatar from "../assets/default_avatar.jpg";
 import ThemeToggle from "../components/ThemeToggle";
+import { useState, useEffect } from "react"; // Import useState and useEffect
 
 const Navbar = () => {
+  const [isTransparent, setIsTransparent] = useState(true); // State to manage transparency
   let { user, logout } = useAuth();
   let navigate = useNavigate();
+
+  // Handle logout
   let handleLogout = () => {
     logout()
       .then(() => {
@@ -14,9 +18,30 @@ const Navbar = () => {
       .catch((error) => console.log(error));
   };
 
+  // Add scroll event listener
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsTransparent(false); // Make navbar opaque
+      } else {
+        setIsTransparent(true); // Make navbar transparent
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup the event listener
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Navbar items
   let items = (
     <>
-    <li><NavLink to={'/dashboard'}>Dashboard</NavLink></li>
+      <li>
+        <NavLink to={"/dashboard"}>Dashboard</NavLink>
+      </li>
       <li>
         {user ? (
           <>
@@ -32,11 +57,23 @@ const Navbar = () => {
       </li>
     </>
   );
+
   return (
-    <div className="navbar bg-secondary dark:bg-base-100 fixed left-0 top-0 z-10">
-      <div className=" container py-0">
+    <div
+    className={`navbar fixed left-0 top-0 z-10 border-b-2 border-secondary transition-colors duration-300 ${
+      isTransparent
+        ? "bg-white dark:bg-transparent"
+        : " dark:bg-base-100/80 bg-transparent backdrop-blur-sm shadow-md"
+    }`}
+  >
+      <div className="container py-0">
         <div className="flex-1">
-          <Link to={'/'} className="btn btn-ghost text-white dark:text-white text-xl">daisyUI</Link>
+          <Link
+            to={"/"}
+            className="btn btn-ghost text-secondary dark:text-white text-xl"
+          >
+            daisyUI
+          </Link>
         </div>
         <div className="flex items-center gap-2">
           <div className="dropdown dropdown-end">
@@ -45,16 +82,15 @@ const Navbar = () => {
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
-              <div className="w-10 rounded-full">
-               {} <img
+              <div className="w-10 rounded-full border-secondary border-2">
+                <img
                   alt="Tailwind CSS Navbar component"
-                  src={user?.photoURL ||default_avatar}
+                  src={user?.photoURL || default_avatar}
                   onError={(e) => {
                     e.target.onerror = null; // Prevent infinite loop
-                    e.target.src = default_avatar // Replace with your default image URL
+                    e.target.src = default_avatar; // Replace with your default image URL
                   }}
                 />
-                
               </div>
             </div>
             <ul
@@ -64,7 +100,7 @@ const Navbar = () => {
               {items}
             </ul>
           </div>
-            <ThemeToggle></ThemeToggle>
+          <ThemeToggle></ThemeToggle>
         </div>
       </div>
     </div>

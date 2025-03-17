@@ -34,7 +34,7 @@ const SubmissionBuyerTask = ({ totalPaidCoin, settotalPaidCoin }) => {
   });
 
   if (isLoading) {
-   return <LoadingPage></LoadingPage>;
+    return <LoadingPage></LoadingPage>;
   }
 
   // this function for approve request
@@ -97,7 +97,7 @@ const SubmissionBuyerTask = ({ totalPaidCoin, settotalPaidCoin }) => {
     <div>
       <div className="overflow-x-auto">
         <div className="hidden md:block">
-           {/* Standard Table for larger screens */}
+          {/* Standard Table for larger screens */}
           <table className="table table-zebra text-center">
             <thead>
               <tr>
@@ -174,68 +174,77 @@ const SubmissionBuyerTask = ({ totalPaidCoin, settotalPaidCoin }) => {
         </div>
         {/* Mobile View: Card Format */}
         <div className="md:hidden">
-  {tasks?.map((task, idx) => (
-    <div
-      key={task._id}
-      className="bg-gray-700 p-4 rounded-lg mb-4 shadow-md w-full"
-    >
-      <div className="flex items-center gap-3">
-        <div className="mask mask-squircle h-12 w-12">
-          <img src={task?.worker_photo} alt="worker" />
-        </div>
-        <div>
-          <p className="font-semibold">{task?.worker_name}</p>
-          <p className="text-sm text-gray-400">{task?.worker_email}</p>
-        </div>
-      </div>
-      <div className="mt-2">
-        <p>
-          <span className="font-semibold">Title:</span> {task?.task_title}
-        </p>
-        <p>
-          <span className="font-semibold">Payable Amount:</span> {task?.payable_amount}$
-        </p>
-      </div>
-      <div className="flex justify-between mt-3">
-        <button
-          onClick={() => handleViewSubmit(task)}
-          className="text-blue-400 text-xl"
-        >
-          <MdViewCarousel />
-        </button>
-
-        {task?.status === "approved" ? (
-          <span className="py-1 px-3 bg-green-400 text-white text-xs font-semibold rounded-full">
-            Approved
-          </span>
-        ) : (
-          <div className="flex gap-2">
-            <button
-              disabled={task?.status === "approved"}
-              onClick={() =>
-                handleApproveReq(task?._id, task?.worker_email, task?.payable_amount)
-              }
-              className={`px-4 py-1 rounded-md text-sm ${
-                task?.status === "approved" ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 text-white"
-              }`}
+          {tasks?.map((task, idx) => (
+            <div
+              key={task._id}
+              className="bg-gray-700 p-4 rounded-lg mb-4 shadow-md w-full"
             >
-              Approve
-            </button>
-            <button
-              onClick={() => handleRejectFunc(task?.taskId, task?._id)}
-              className={`px-4 py-1 rounded-md text-sm ${
-                task?.status === "reject" ? "bg-red-500 text-white" : "bg-gray-500"
-              }`}
-            >
-              Reject
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  ))}
-</div>
+              <div className="flex items-center gap-3">
+                <div className="mask mask-squircle h-12 w-12">
+                  <img src={task?.worker_photo} alt="worker" />
+                </div>
+                <div>
+                  <p className="font-semibold">{task?.worker_name}</p>
+                  <p className="text-sm text-gray-400">{task?.worker_email}</p>
+                </div>
+              </div>
+              <div className="mt-2">
+                <p>
+                  <span className="font-semibold">Title:</span>{" "}
+                  {task?.task_title}
+                </p>
+                <p>
+                  <span className="font-semibold">Payable Amount:</span>{" "}
+                  {task?.payable_amount}$
+                </p>
+              </div>
+              <div className="flex justify-between mt-3">
+                <button
+                  onClick={() => handleViewSubmit(task)}
+                  className="text-blue-400 text-xl"
+                >
+                  <MdViewCarousel />
+                </button>
 
+                {task?.status === "approved" ? (
+                  <span className="py-1 px-3 bg-green-400 text-white text-xs font-semibold rounded-full">
+                    Approved
+                  </span>
+                ) : (
+                  <div className="flex gap-2">
+                    <button
+                      disabled={task?.status === "approved"}
+                      onClick={() =>
+                        handleApproveReq(
+                          task?._id,
+                          task?.worker_email,
+                          task?.payable_amount
+                        )
+                      }
+                      className={`px-4 py-1 rounded-md text-sm ${
+                        task?.status === "approved"
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-blue-500 text-white"
+                      }`}
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleRejectFunc(task?.taskId, task?._id)}
+                      className={`px-4 py-1 rounded-md text-sm ${
+                        task?.status === "reject"
+                          ? "bg-red-500 text-white"
+                          : "bg-gray-500"
+                      }`}
+                    >
+                      Reject
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
       {showModel && (
         <ViewSubmission

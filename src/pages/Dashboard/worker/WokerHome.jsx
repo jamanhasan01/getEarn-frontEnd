@@ -3,24 +3,25 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import LoadingPage from "../../../shared/LoadingPage";
 import useWorker from "../../../hooks/useWorker";
+import { useEffect, useState } from "react";
 
 const WokerHome = () => {
   let axiosPrivate = useAxiosPrivate();
   let { user } = useAuth();
   let [isWorker]=useWorker()
-  console.log(isWorker.worker);
+ 
   
   let {
-    data: tasks = [],
+    data: sumsmission_data = [],
     refetch: refetchTask,
     isLoading,
-  } = useQuery({
+} = useQuery({
     queryKey: ["tasks", user?.email],
     queryFn: async () => {
-      let res = await axiosPrivate(`/submission_task/worker/${user?.email}`);
-      return res.data.data
+        let res = await axiosPrivate(`/submission_task/worker/${user?.email}?page=0&size=1000`);
+        return res.data;
     },
-  });
+});
 
 
   
@@ -28,17 +29,24 @@ if (isLoading) {
    return <LoadingPage></LoadingPage>
 }
 
+  let tasks=sumsmission_data.data || []
 
   // Count pending submissions
   let pending_count = tasks?.reduce((acc, item) => {
     return item.status == "pending" ? acc + 1 : acc;
   }, 0);
 
+  console.log(pending_count);
+  
   let earn_count = tasks?.reduce((acc, item) => {
     return item.status == "approved" ? acc + item.payable_amount : acc;
   }, 0);
 
   let approve_data = tasks?.filter((item) => item.status == "approved");
+
+
+
+
 
   return (
     <section className="p-6 min-h-screen text-gray-200">

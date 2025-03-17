@@ -38,7 +38,7 @@ const ThemeToggle = () => {
           <FaMoon />
         </button>
       ) : (
-        <button className=" text-white" onClick={switchToDark}>
+        <button className=" text-secondary" onClick={switchToDark}>
           <FaSun />
         </button>
       )}

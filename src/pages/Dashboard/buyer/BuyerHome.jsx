@@ -9,6 +9,7 @@ import useBuyer from "../../../hooks/useBuyer";
 const BuyerHome = () => {
   let [totalPaidCoin, settotalPaidCoin] = useState(0);
   let [isBuyer] = useBuyer();
+let axiosPrivate=useAxiosPrivate()
 
   let { user } = useAuth();
   let {
@@ -18,7 +19,7 @@ const BuyerHome = () => {
   } = useQuery({
     queryKey: ["tasks", user?.email],
     queryFn: async () => {
-      let res = await useAxiosPrivate(`/submission_task/buyer/${user?.email}`);
+      let res = await axiosPrivate(`/submission_task/buyer/${user?.email}`);
       return res.data;
     },
   });
@@ -27,6 +28,10 @@ const BuyerHome = () => {
   let pending_count = tasks?.reduce((acc, item) => {
     return item.status == "pending" ? acc + 1 : acc;
   }, 0);
+
+
+  
+
 
 
   return (

@@ -11,7 +11,7 @@ export default {
     extend: {
       colors: {
         primary: '#01122E', // Blue
-        secondary: '#7480ff', // Orange
+        secondary: '#f97316', // Orange
         success: '#4CAF50', // Green
         gold: '#FFD700', // Gold
         neutral: '#4A5568' // Dark Gray
