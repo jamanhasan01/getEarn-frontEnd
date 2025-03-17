@@ -63,7 +63,7 @@ const DashBoard = () => {
       <div className="flex h-full">
         {
           <aside
-            className={`fixed left-0 top-0 z-10 h-full bg-[#7480ff] p-5 ${
+            className={`fixed left-0 top-0 z-10 h-full bg-gray-700 p-5 ${
               showSidebar ? "px-1" : "px-5"
             } flex flex-col justify-between transition-all duration-300 ${
               showSidebar ? "w-12" : "md:w-1/5"
@@ -72,7 +72,7 @@ const DashBoard = () => {
             {/* Button to toggle sidebar visibility */}
             <button
               onClick={() => setshowSidebar(!showSidebar)}
-              className="absolute -right-3 top-[50%] text-white text-3xl"
+              className="absolute -right-3 top-[50%] text-white  text-3xl"
             >
               <FaCircleChevronRight />
             </button>
@@ -80,11 +80,11 @@ const DashBoard = () => {
             <nav className="text-center">
               <Link to="/">
                 {!showSidebar ? (
-                  <h2 className="text-2xl font-semibold text-white mb-5">
+                  <h2 className="text-2xl font-semibold text-secondary mb-5">
                     Get Earn
                   </h2>
                 ) : (
-                  <GiTakeMyMoney className="text-4xl p-1 rounded-2xl font-semibold text-[#7480ff] bg-white mb-5 border"></GiTakeMyMoney>
+                  <GiTakeMyMoney className="text-4xl p-1 rounded-2xl font-semibold text-secondary bg-white mb-5 border"></GiTakeMyMoney>
                 )}{" "}
               </Link>
               <ul className="list-none flex flex-col gap-2">
@@ -94,8 +94,8 @@ const DashBoard = () => {
                     className={({ isActive }) =>
                       `flex items-center justify-start  gap-2 text-base px-2  py-2  font-semibold transition-all ${
                         location.pathname === "/dashboard"
-                          ? "bg-white text-[#7480ff] rounded"
-                          : "text-white rounded hover:bg-white hover:text-[#7480ff]"
+                          ? "bg-white text-secondary rounded"
+                          : "text-white rounded hover:bg-white hover:text-secondary"
                       }`
                     }
                   >
@@ -115,8 +115,8 @@ const DashBoard = () => {
                         className={({ isActive }) =>
                           `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                             isActive
-                              ? "bg-white text-[#7480ff] rounded"
-                              : "text-white rounded hover:bg-white hover:text-[#7480ff]"
+                              ? "bg-white text-secondary rounded"
+                              : "text-white rounded hover:bg-white hover:text-secondary"
                           }`
                         }
                       >
@@ -132,8 +132,8 @@ const DashBoard = () => {
                         className={({ isActive }) =>
                           `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                             isActive
-                              ? "bg-white text-[#7480ff] rounded"
-                              : "text-white rounded hover:bg-white hover:text-[#7480ff]"
+                              ? "bg-white text-secondary rounded"
+                              : "text-white rounded hover:bg-white hover:text-secondary"
                           }`
                         }
                       >
@@ -154,8 +154,8 @@ const DashBoard = () => {
                         className={({ isActive }) =>
                           `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                             isActive
-                              ? "bg-white text-[#7480ff] rounded"
-                              : "text-white rounded hover:bg-white hover:text-[#7480ff]"
+                              ? "bg-white text-secondary rounded"
+                              : "text-white rounded hover:bg-white hover:text-secondary"
                           }`
                         }
                       >
@@ -171,8 +171,8 @@ const DashBoard = () => {
                         className={({ isActive }) =>
                           `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                             isActive
-                              ? "bg-white text-[#7480ff] rounded"
-                              : "text-white rounded hover:bg-white hover:text-[#7480ff]"
+                              ? "bg-white text-secondary rounded"
+                              : "text-white rounded hover:bg-white hover:text-secondary"
                           }`
                         }
                       >
@@ -188,8 +188,8 @@ const DashBoard = () => {
                         className={({ isActive }) =>
                           `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                             isActive
-                              ? "bg-white text-[#7480ff] rounded"
-                              : "text-white rounded hover:bg-white hover:text-[#7480ff]"
+                              ? "bg-white text-secondary rounded"
+                              : "text-white rounded hover:bg-white hover:text-secondary"
                           }`
                         }
                       >
@@ -210,8 +210,8 @@ const DashBoard = () => {
                         className={({ isActive }) =>
                           `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                             isActive
-                              ? "bg-white text-[#7480ff] rounded"
-                              : "text-white rounded hover:bg-white hover:text-[#7480ff]"
+                              ? "bg-white text-secondary rounded"
+                              : "text-white rounded hover:bg-white hover:text-secondary"
                           }`
                         }
                       >
@@ -227,8 +227,8 @@ const DashBoard = () => {
                         className={({ isActive }) =>
                           `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                             isActive
-                              ? "bg-white text-[#7480ff] rounded"
-                              : "text-white rounded hover:bg-white hover:text-[#7480ff]"
+                              ? "bg-white text-secondary rounded"
+                              : "text-white rounded hover:bg-white hover:text-secondary"
                           }`
                         }
                       >
@@ -244,8 +244,8 @@ const DashBoard = () => {
                         className={({ isActive }) =>
                           `flex items-center gap-2 text-base px-2 py-2 font-semibold transition-all ${
                             isActive
-                              ? "bg-white text-[#7480ff] rounded"
-                              : "text-white rounded hover:bg-white hover:text-[#7480ff]"
+                              ? "bg-white text-secondary rounded"
+                              : "text-white rounded hover:bg-white hover:text-secondary"
                           }`
                         }
                       >
@@ -266,7 +266,7 @@ const DashBoard = () => {
                 <li>
                   <Link
                     to="/"
-                    className="flex items-center gap-2 px-2 py-2 rounded hover:bg-white hover:text-[#7480ff] transition"
+                    className="flex items-center gap-2 px-2 py-2 rounded hover:bg-white hover:text-secondary transition"
                   >
                     <RiArrowGoBackFill
                       className={`text-${showSidebar ? "2xl" : "2xl"}`}
@@ -277,7 +277,7 @@ const DashBoard = () => {
                 <li>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center gap-2 px-2 py-2 rounded w-full hover:bg-white hover:text-[#7480ff] transition"
+                    className="flex items-center gap-2 px-2 py-2 rounded w-full hover:bg-white hover:text-secondary transition"
                   >
                     <FaSignOutAlt
                       className={`text-${showSidebar ? "2xl" : "2xl"}`}

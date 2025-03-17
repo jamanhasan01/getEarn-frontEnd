@@ -7,10 +7,12 @@ import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import LoadingPage from "../../../shared/LoadingPage";
 import NavBarOfNotifications from "../../../components/NavBarOfNotifications";
 import { useState } from "react";
+import useWorker from "../../../hooks/useWorker";
 
 const Topbar = () => {
   let { user } = useAuth();
   let axiosPrivate = useAxiosPrivate();
+let [isWorker]=useWorker()
   const [showNotificatoinBar, setshowNotificatoinBar] = useState(false);
   let location = useLocation();
 
@@ -56,7 +58,7 @@ const Topbar = () => {
           <h4 className="text-sm font-semibold ">{user?.displayName}</h4>
         </div>
         <div>
-        {location.pathname !=='/dashboard/notifications' && <button onClick={()=>setshowNotificatoinBar(!showNotificatoinBar)} className="btn btn-ghost btn-circle">
+        {isWorker?.worker && location.pathname !=='/dashboard/notifications' && <button onClick={()=>setshowNotificatoinBar(!showNotificatoinBar)} className="btn btn-ghost btn-circle">
           <div className="indicator">
             <svg
               xmlns="http://www.w3.org/2000/svg"

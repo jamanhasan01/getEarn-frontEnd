@@ -16,7 +16,7 @@ const HeroSection = () => {
             />
           </div>
           <div className="lg:w-1/2">
-            <h1 className="text-5xl font-bold text-white">
+            <h1 className="text-5xl font-bold text-white dark:text-secondary">
               Get Work Done, Earn More The Future of Microtasks is Here!
             </h1>
             <p className="py-6 text-gray-700 font-semibold dark:text-gray-300">
@@ -25,7 +25,7 @@ const HeroSection = () => {
               skilled workers or earn by completing tasks, we’ve got you
               covered.
             </p>
-            <button className="btn bg-white text-black  border-none btn-primary">
+            <button className="btn bg-white text-secondary hover:bg-black hover:text-white dark:bg-secondary dark:text-white  border-none btn-primary">
               Get Started
             </button>
           </div>

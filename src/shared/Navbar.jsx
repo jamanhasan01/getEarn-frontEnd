@@ -70,9 +70,9 @@ const Navbar = () => {
         <div className="flex-1">
           <Link
             to={"/"}
-            className="btn btn-ghost text-secondary dark:text-white text-xl"
+            className="btn btn-ghost !text-secondary dark:text-white text-xl"
           >
-            daisyUI
+            Get_Earn
           </Link>
         </div>
         <div className="flex items-center gap-2">
