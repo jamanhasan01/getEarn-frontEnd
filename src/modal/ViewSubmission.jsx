@@ -3,6 +3,7 @@ import { useEffect } from "react";
 const ViewSubmission = ({ showModel, setshowModel, submissionDetails, setsubmissionDetails }) => {
   const {
     buyer_email,
+    buyer_name,
     completion_date,
     payable_amount,
     required_workers,
@@ -19,7 +20,7 @@ const ViewSubmission = ({ showModel, setshowModel, submissionDetails, setsubmiss
   } = submissionDetails;
 
 
-console.log(buyer_email);
+
 
   const handleModelClose = () => {
     setsubmissionDetails({});

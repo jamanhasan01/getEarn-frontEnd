@@ -78,6 +78,7 @@ const AddTask = () => {
         task_url,
         image: imageUrl,
         buyer_email: user?.email,
+        buyer_name:user?.displayName
       };
 
       let totalCoin = userCoins - requiredTotal;

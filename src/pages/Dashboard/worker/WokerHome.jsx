@@ -97,7 +97,7 @@ if (isLoading) {
             {/* Table Header */}
             <thead className="bg-gray-700">
               <tr >
-                <th className="py-3 text-center">#</th>
+                <th className="py-3 text-center">No</th>
                 <th className="py-3 text-center">Title</th>
                 <th className="py-3 text-center">Buyer Email</th>
                 <th className="py-3 text-center">Payable Amount</th>

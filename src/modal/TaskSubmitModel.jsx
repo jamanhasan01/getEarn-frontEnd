@@ -17,6 +17,7 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
   // object distracture
   let {
     buyer_email,
+    buyer_name,
     completion_date,
     image,
     payable_amount,
@@ -27,6 +28,8 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
     _id,
   } = task;
 
+  console.log(task);
+  
   
   // ----------------
   let axiosPublic = useAxiosPublic();
@@ -74,7 +77,7 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
       let taskSubmissions = {
         taskId: _id,
         buyer_email,
-        
+        buyer_name,
         payable_amount,
         worker_email: user?.email,
         worker_name: user?.displayName,
@@ -88,6 +91,8 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
         task_title,
         submissionTime: currentTime,
       };
+      console.log(taskSubmissions);
+      
       let res = await axiosPublic.post("/submission_task", taskSubmissions);
       if (res.data.insertedId) {
         toast.success("Image uploaded successfully!");
