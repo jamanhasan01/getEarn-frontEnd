@@ -50,7 +50,7 @@ const MySubmissions = () => {
 
   return (
     <div className="min-h-screen bg-gray-800 p-6 rounded-xl shadow-md">
-      <h3 className="text-center text-3xl mb-3 font-medium text-gray-400">
+      <h3 className="text-center text-2xl mb-3 font-medium text-gray-400">
         Total Submissions: {total_data}
       </h3>
       <div className="overflow-x-auto">

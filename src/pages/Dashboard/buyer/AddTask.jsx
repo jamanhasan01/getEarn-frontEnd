@@ -6,11 +6,14 @@ import useBuyer from "../../../hooks/useBuyer";
 import useAuth from "../../../hooks/useAuth";
 import LoadingPage from "../../../shared/LoadingPage";
 import moment from "moment";
+import useCoins from "../../../hooks/useCoins";
 
 const AddTask = () => {
   let axiosPublic = useAxiosPublic();
   let axiosPrivate = useAxiosPrivate();
-  let [isBuyer, buyerLoading, refetch] = useBuyer();
+  let [isBuyer, buyerLoading, isBuyerRef] = useBuyer();
+  let [,refetchCoins]=useCoins()
+  
   let { user } = useAuth();
   let todayDate = moment();
 
@@ -88,7 +91,8 @@ const AddTask = () => {
         await axiosPrivate.patch(`/users/buyer/${user?.email}`, {
           coins: totalCoin,
         });
-        refetch();
+        isBuyerRef();
+        refetchCoins()
         Swal.fire({
           position: "center",
           icon: "success",

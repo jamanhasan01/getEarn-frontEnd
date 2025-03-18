@@ -8,9 +8,11 @@ import LoadingPage from "../../../shared/LoadingPage";
 import NavBarOfNotifications from "../../../components/NavBarOfNotifications";
 import { useState } from "react";
 import useWorker from "../../../hooks/useWorker";
+import useCoins from "../../../hooks/useCoins";
 
 const Topbar = () => {
   let { user } = useAuth();
+  let [coins,refetchCoins]=useCoins()
   let axiosPrivate = useAxiosPrivate();
 let [isWorker]=useWorker()
   const [showNotificatoinBar, setshowNotificatoinBar] = useState(false);
@@ -36,18 +38,18 @@ let [isWorker]=useWorker()
 
       <div className="navbar-end">
         <div className="flex flex-col pr-2">
-          <h4 className="text-white/80">
+          <h4 className="text-white/80 w-24 md:w-auto">
             <span className="font-semibold">Role</span> : {user_info?.role}
           </h4>
           <h4 className="flex items-center text-2xl font-semibold gap-2 text-[#FFD700]">
             {" "}
-            {user_info?.coins}
+            {coins}
             <FaCoins />
           </h4>
         </div>
         <div className="flex flex-col  px-2 border-gray-400 justify-center items-center">
           <img
-            className="w-10 rounded-badge border-2 border-gray-500"
+            className="w-10 h-10 bg-cover rounded-badge border-2 border-gray-500"
             src={user?.photoURL || default_avatar} // Default image if no URL is provided
             alt="User Avatar"
             onError={(e) => {

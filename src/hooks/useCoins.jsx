@@ -8,8 +8,8 @@ const useCoins = () => {
   let {data:coins,refetch:refetchCoins}=useQuery({
     queryKey:[user?.email,"coins"],
     queryFn:async()=>{
-        let res=await axiosPrivate.get(`/users/buyer/${user?.email}`)
-        return res.data.user.coins
+        let res=await axiosPrivate.get(`/user/${user?.email}`)
+        return res.data.coins
     }
   })
   return [coins,refetchCoins]

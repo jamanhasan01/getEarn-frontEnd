@@ -35,9 +35,9 @@ const ViewSubmission = ({ showModel, setshowModel, submissionDetails, setsubmiss
   return (
     <div>
       {showModel && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm px-4">
+        <div className="fixed w-full inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm px-4">
           {/* Modal Container */}
-          <div className="relative w-full max-w-lg rounded-lg bg-white shadow-xl md:max-w-4xl max-h-[90vh] overflow-y-auto">
+          <div className="relative w-full  rounded-lg bg-white shadow-xl md:max-w-4xl max-h-[90vh] overflow-y-auto">
             
             {/* Close Button */}
             <button 

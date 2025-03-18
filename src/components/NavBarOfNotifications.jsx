@@ -28,9 +28,9 @@ console.log(user);
   console.log(notificationArr);
 
   return (
-    <div className="bg-gray-700 z-50 w-72 m- p-5 rounded-2xll">
+    <div className="bg-gray-700 z-50 w-80  m- p-5 rounded-2xl">
       {/* Add a fixed height or max-height to enable scrolling */}
-      <div className="space-y-2 overflow-y-scroll max-h-96">
+      <div className="space-y-2 overflow-y-scroll max-h-[calc(100vh-130px)]">
         <div className="text-right font-semibold text-sm  ">
           <button onClick={()=>setshowNotificatoinBar(false)}><Link to={`/dashboard/notifications`}>See more</Link></button>
         </div>

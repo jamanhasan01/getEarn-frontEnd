@@ -6,11 +6,15 @@ import moment from "moment";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { Link, useNavigate } from "react-router-dom";
 
-
-const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) => {
+const TaskSubmitModel = ({
+  showTaskSubmit,
+  setShowTaskSubmit,
+  task,
+  refetch,
+}) => {
   let { user } = useAuth();
   let currentTime = moment().format("lll");
-  let navigate=useNavigate()
+  let navigate = useNavigate();
 
   let axiosPrivate = useAxiosPrivate();
 
@@ -29,8 +33,7 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
   } = task;
 
   console.log(task);
-  
-  
+
   // ----------------
   let axiosPublic = useAxiosPublic();
   //   this state for when model over scroll will be hide
@@ -92,14 +95,14 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
         submissionTime: currentTime,
       };
       console.log(taskSubmissions);
-      
+
       let res = await axiosPublic.post("/submission_task", taskSubmissions);
       if (res.data.insertedId) {
         toast.success("Image uploaded successfully!");
-        await axiosPrivate.patch(`/task/${_id}/workers?minus_worker=${-1}`)
-        refetch()
-        setShowTaskSubmit(false)
-        navigate('/dashboard/worker/tasklist')
+        await axiosPrivate.patch(`/task/${_id}/workers?minus_worker=${-1}`);
+        refetch();
+        setShowTaskSubmit(false);
+        navigate("/dashboard/worker/tasklist");
       }
     } catch (error) {
       console.error("Error:", error.message);
@@ -112,7 +115,7 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
       <div>
         {showTaskSubmit && (
           <div className="fixed left-0 top-0 w-full h-full z-50  bg-black/90">
-            <div className="fixed left-[50%] top-[50%] w-3/6 bg-white -translate-x-[50%] -translate-y-[50%] p-3 text-gray-800">
+            <div className="fixed left-[50%] top-[50%] w-5/6 md:w-4/6 lg:w-3/6 xl:w-3/6 bg-white -translate-x-[50%] -translate-y-[50%] p-3 text-gray-800">
               <div className="flex justify-end">
                 <button
                   className="text-2xl font-semibold text-right "
@@ -136,7 +139,7 @@ const TaskSubmitModel = ({ showTaskSubmit, setShowTaskSubmit, task ,refetch}) =>
                     required
                   />
                 </div>
-             <button type="submit" className="btn btn-primary mt-3">
+                <button type="submit" className="btn bg-secondary text-white border-none mt-3 w-full ">
                   Upload
                 </button>
               </form>
