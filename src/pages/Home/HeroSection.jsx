@@ -1,5 +1,6 @@
 import React from "react";
 import heroImg from "../../assets/heroImage.png";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -11,7 +12,7 @@ const HeroSection = () => {
           <div className="flex sm:justify-start lg:justify-center items-center">
             <img
               src={heroImg}
-              className="hidden md:block md:w-full md:max-w-sm rounded-lg shadow-2xl bg-white dark:bg-white/60"
+              className="hidden md:block md:w-full md:max-w-sm rounded-badge shadow-2xl bg-white dark:bg-secondary"
               alt="Hero"
             />
           </div>
@@ -25,9 +26,11 @@ const HeroSection = () => {
               skilled workers or earn by completing tasks, we’ve got you
               covered.
             </p>
-            <button className="btn bg-white text-secondary hover:bg-black hover:text-white dark:bg-secondary dark:text-white  border-none btn-primary">
-              Get Started
-            </button>
+            <Link to={'/dashboard'}> 
+              <button className="btn bg-white text-secondary hover:bg-black hover:text-white dark:bg-secondary dark:text-white  border-none btn-primary">
+                Get Started
+              </button>
+            </Link>
           </div>
         </div>
       </div>

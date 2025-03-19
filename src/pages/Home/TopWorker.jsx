@@ -7,12 +7,13 @@ import { BsCoin } from "react-icons/bs";
 import Title from "../../components/Title";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import default_avatar from '../../assets/default_avatar.jpg'
+import { FaCoins } from "react-icons/fa6";
 
 const TopWorker = () => {
   let { user } = useAuth();
   let axiosPublic = useAxiosPublic();
   const { data: top_worker = [], isLoading } = useQuery({
-    queryKey: [user?.email],
+    queryKey: [user?.email,'top_workers'],
     queryFn: async () => {
       let res = await axiosPublic.get("/top_workers");
       return res?.data || []; // Ensure it always returns an array
@@ -24,7 +25,7 @@ const TopWorker = () => {
   }
 
   return (
-    <section className="bg-orange-50 dark:bg-gray-900 min-h-screen py-10">
+    <section className="bg-orange-50 dark:bg-gray-900 ">
       <div className="container mx-auto px-4">
         <Title
           title={"Top Workers"}
@@ -51,9 +52,10 @@ const TopWorker = () => {
                       e.target.src = default_avatar // Replace with your default image URL
                     }}
                   />
-                  <h4 className="text-2xl font-semibold text-gray-800 dark:text-white flex flex-col  items-center">
-                    <BsCoin className="text-orange-500 dark:text-orange-400" />
-                    {worker?.coins} Coins
+                  <h6 className="text-sm font-semibold">{worker.name}</h6>
+                  <h4 className="text-2xl font-semibold text-orange-500 flex gap-2  items-center">
+                    {worker?.coins} 
+                        <FaCoins  className="" />
                   </h4>
                 </div>
               ))
