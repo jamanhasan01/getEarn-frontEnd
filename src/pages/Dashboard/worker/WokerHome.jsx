@@ -8,28 +8,26 @@ import { useEffect, useState } from "react";
 const WokerHome = () => {
   let axiosPrivate = useAxiosPrivate();
   let { user } = useAuth();
-  let [isWorker]=useWorker()
- 
-  
+
   let {
     data: sumsmission_data = [],
     refetch: refetchTask,
     isLoading,
-} = useQuery({
+  } = useQuery({
     queryKey: ["tasks", user?.email],
     queryFn: async () => {
-        let res = await axiosPrivate(`/submission_task/worker/${user?.email}?page=0&size=1000`);
-        return res.data;
+      let res = await axiosPrivate(
+        `/submission_task/worker/${user?.email}?page=0&size=1000`
+      );
+      return res.data;
     },
-});
+  });
 
+  if (isLoading) {
+    return <LoadingPage></LoadingPage>;
+  }
 
-  
-if (isLoading) {
-   return <LoadingPage></LoadingPage>
-}
-
-  let tasks=sumsmission_data.data || []
+  let tasks = sumsmission_data.data || [];
 
   // Count pending submissions
   let pending_count = tasks?.reduce((acc, item) => {
@@ -37,16 +35,12 @@ if (isLoading) {
   }, 0);
 
   console.log(pending_count);
-  
+
   let earn_count = tasks?.reduce((acc, item) => {
     return item.status == "approved" ? acc + item.payable_amount : acc;
   }, 0);
 
   let approve_data = tasks?.filter((item) => item.status == "approved");
-
-
-
-
 
   return (
     <section className="p-6 min-h-screen text-gray-200">
@@ -92,86 +86,103 @@ if (isLoading) {
           Approved Submissions
         </h2>
         <div className="overflow-x-auto">
-       { approve_data.length >0 && <div className="hidden md:block">
-         <table className="table w-full text-gray-200">
-            {/* Table Header */}
-            <thead className="bg-gray-700">
-              <tr >
-                <th className="py-3 text-center">No</th>
-                <th className="py-3 text-center">Title</th>
-                <th className="py-3 text-center">Buyer Email</th>
-                <th className="py-3 text-center">Payable Amount</th>
-                <th className="py-3 text-center">Status</th>
-              </tr>
-            </thead>
-            {/* Table Body */}
-            <tbody>
-              {approve_data?.map((submission,i) => (
-                <tr key={submission._id} className="border-b border-gray-600">
-                  <td className="text-center">{i+1}</td>
-                  <td className="flex justify-center py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="avatar">
-                        <div className="mask mask-squircle h-12 w-12">
-                          <img src={submission?.taskImage} alt="Task Image" />
+          {approve_data.length > 0 && (
+            <div className="hidden md:block">
+              <table className="table w-full text-gray-200">
+                {/* Table Header */}
+                <thead className="bg-gray-700">
+                  <tr>
+                    <th className="py-3 text-center">No</th>
+                    <th className="py-3 text-center">Title</th>
+                    <th className="py-3 text-center">Buyer Email</th>
+                    <th className="py-3 text-center">Payable Amount</th>
+                    <th className="py-3 text-center">Status</th>
+                  </tr>
+                </thead>
+                {/* Table Body */}
+                <tbody>
+                  {approve_data?.map((submission, i) => (
+                    <tr
+                      key={submission._id}
+                      className="border-b border-gray-600"
+                    >
+                      <td className="text-center">{i + 1}</td>
+                      <td className="flex justify-center py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="avatar">
+                            <div className="mask mask-squircle h-12 w-12">
+                              <img
+                                src={submission?.taskImage}
+                                alt="Task Image"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="font-bold">
+                              {submission.task_title}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div>
-                        <div className="font-bold">{submission.task_title}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="text-center">{submission.buyer_email}</td>
-                  <td className="text-center font-bold text-lg">
-                    {submission.payable_amount}
-                  </td>
-                  <td className="text-center">
-                    <span
-                      className={`px-3 py-1 rounded-full font-medium capitalize text-white 
+                      </td>
+                      <td className="text-center">{submission.buyer_email}</td>
+                      <td className="text-center font-bold text-lg">
+                        {submission.payable_amount}
+                      </td>
+                      <td className="text-center">
+                        <span
+                          className={`px-3 py-1 rounded-full font-medium capitalize text-white 
                     ${submission.status === "pending" ? "bg-orange-500" : ""}
                     ${submission.status === "approved" ? "bg-green-500" : ""}
                     ${submission.status === "reject" ? "bg-red-500" : ""}`}
-                    >
-                      {submission.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-         </div>}
-         {/* Cards for Mobile */}
-  <div className="flex flex-col md:hidden space-y-4">
-    {approve_data && approve_data?.map((submission, i) => (
-      <div key={submission._id} className="bg-gray-700 p-5 rounded-lg shadow-md">
-        <div className="flex flex-col items-start gap-3">
-          <div className="avatar">
-            <div className="mask mask-squircle h-16 w-16">
-              <img src={submission?.taskImage} alt="Task Image" />
+                        >
+                          {submission.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          </div>
-          <div className="flex-1">
-            <h3 className="font-bold text-lg">{submission.task_title}</h3>
-            <p className="text-gray-400 text-sm">Buyer: {submission.buyer_email}</p>
-            <p className="text-green-400 font-bold text-sm">
-              Earned: {submission.payable_amount} Coins
-            </p>
-          </div>
-          <div className=" text-right">
-          <span
-            className={`px-3 py-1 text-sm rounded-full font-medium capitalize text-white 
+          )}
+          {/* Cards for Mobile */}
+          <div className="flex flex-col md:hidden space-y-4">
+            {approve_data &&
+              approve_data?.map((submission, i) => (
+                <div
+                  key={submission._id}
+                  className="bg-gray-700 p-5 rounded-lg shadow-md"
+                >
+                  <div className="flex flex-col items-start gap-3">
+                    <div className="avatar">
+                      <div className="mask mask-squircle h-16 w-16">
+                        <img src={submission?.taskImage} alt="Task Image" />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-lg">
+                        {submission.task_title}
+                      </h3>
+                      <p className="text-gray-400 text-sm">
+                        Buyer: {submission.buyer_email}
+                      </p>
+                      <p className="text-green-400 font-bold text-sm">
+                        Earned: {submission.payable_amount} Coins
+                      </p>
+                    </div>
+                    <div className=" text-right">
+                      <span
+                        className={`px-3 py-1 text-sm rounded-full font-medium capitalize text-white 
               ${submission.status === "pending" ? "bg-orange-500" : ""}
               ${submission.status === "approved" ? "bg-green-500" : ""}
               ${submission.status === "reject" ? "bg-red-500" : ""}`}
-          >
-            {submission.status}
-          </span>
-        </div>
-        </div>
-    
-      </div>
-    ))}
-  </div>
+                      >
+                        {submission.status}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </section>

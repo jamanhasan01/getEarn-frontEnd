@@ -14,7 +14,7 @@ const MakeDifferent = () => {
         ></Title>
         <div className=" grid  md:grid-cols-2 gap-5 items-center">
           <div>
-            <img className="rounded-2xl w-full  border-2  border-secondary border-dashed p-2" src={made_differrent} alt="" />
+            <img className="rounded-2xl w-full md:w-auto  border-2  border-secondary border-dashed p-2" src={made_differrent} alt="" />
           </div>
           <div>
             <ul className="flex flex-col gap-6">

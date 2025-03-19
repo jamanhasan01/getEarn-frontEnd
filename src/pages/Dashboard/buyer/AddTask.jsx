@@ -33,7 +33,8 @@ const AddTask = () => {
     let task_details = form.get("task_details");
     let task_url = form.get("task_url");
     let imageFile = e.target.image.files[0];
-
+      console.log(imageFile);
+      
     let completionDate = moment(completion_date);
     if (completionDate.isBefore(todayDate, "day")) {
       toast.error("You have to select a future date");

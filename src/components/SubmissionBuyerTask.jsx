@@ -28,8 +28,8 @@ const SubmissionBuyerTask = ({ totalPaidCoin, settotalPaidCoin }) => {
   } = useQuery({
     queryKey: ["tasks", user?.email],
     queryFn: async () => {
-      let res = await axiosPrivate(`/submission_task/buyer/${user.email}`);
-      return res.data;
+      let res = await axiosPrivate(`/submission_task/buyer/${user?.email}`);
+      return res?.data;
     },
   });
 

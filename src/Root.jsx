@@ -7,7 +7,6 @@ import Navbar from "./shared/Navbar";
 import Footer from "./shared/Footer";
 import LoadingPage from "./shared/LoadingPage";
 
-
 const Root = () => {
   let { loading, user } = useAuth();
   let location = useLocation();
@@ -25,7 +24,9 @@ const Root = () => {
       <div className="mt-16">
         <Outlet />
       </div>
-      <Footer></Footer>
+      {location.pathname !== "/signin" && location.pathname !== "/signup" && (
+        <Footer></Footer>
+      )}
     </div>
   );
 };

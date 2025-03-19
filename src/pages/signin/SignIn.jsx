@@ -5,12 +5,12 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
+import GoogleLogin from "../../components/GoogleLogin";
 
 const SignIn = () => {
-  let { signIn, user } = useAuth();
-  const [showPass, setshowPass] = useState(false)
+  let { signIn, user,setloading } = useAuth();
+  const [showPass, setshowPass] = useState(false);
   let navigate = useNavigate();
-
 
   let handleSignIn = (e) => {
     e.preventDefault();
@@ -23,6 +23,7 @@ const SignIn = () => {
       .then((res) => {
         if (res?.user) {
           toast.success("Login successful");
+          setloading(false)
           navigate("/");
         }
       })
@@ -31,10 +32,9 @@ const SignIn = () => {
       });
   };
 
-
   return (
     <div>
-      <div className="hero container">
+      <div className="flex justify-center">
         <div className="w-full max-w-lg border  border-gray-600 rounded-xl  shadow-2xl p-10">
           <h1 className="text-center text-3xl font-semibold mb-5 ">Login</h1>
           <form onSubmit={handleSignIn} className=" w-full">
@@ -55,18 +55,31 @@ const SignIn = () => {
                 <span className="label-text">Password</span>
               </label>
               <input
-                type={`${showPass?"text":"password"}`}
+                type={`${showPass ? "text" : "password"}`}
                 name="password"
                 placeholder="password"
                 className="input input-bordered"
                 required
               />
-              <button onClick={()=>setshowPass(!showPass)} className=" absolute text-xl right-4 top-12 mt-1">{showPass?<FaEye></FaEye>:<FaEyeSlash></FaEyeSlash>}</button>
+              <button
+                onClick={() => setshowPass(!showPass)}
+                className=" absolute text-xl right-4 top-12 mt-1"
+              >
+                {showPass ? <FaEye></FaEye> : <FaEyeSlash></FaEyeSlash>}
+              </button>
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Login</button>
             </div>
           </form>
+          <div>
+            <div className="flex items-center w-full my-3">
+              <div className="flex-1 h-px bg-gray-400"></div>
+              <div className="mx-4 text-gray-500 text-sm font-medium">OR</div>
+              <div className="flex-1 h-px bg-gray-400"></div>
+            </div>
+            <GoogleLogin></GoogleLogin>
+          </div>
           <p className="mt-2 text-center">
             don't you have any account?{" "}
             <Link to={"/signup"} className=" font-bold">
