@@ -21,16 +21,18 @@ const GoogleLogin = () => {
         photo: user.photoURL,
         coinPaid: 0,
       };
-      let { data } = await axiosPublic.post("/users", userInfo);
-      if (data.insertedId) {
+      let {status} = await axiosPublic.post("/users", userInfo);
+      
+      
+      if (status===200) {
         toast.success("Registation successful");
         navigate("/");
       }
-      console.log(data);
+    
       
       setloading(false);
     } catch (error) {
-      console.log(error.code);
+      toast.error(error.code);
     } finally {
       setloading(false);
     }

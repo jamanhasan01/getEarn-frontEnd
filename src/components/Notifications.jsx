@@ -1,17 +1,15 @@
 import React from "react";
 import useAuth from "../hooks/useAuth";
-import { Socket } from "socket.io-client";
+
 import io from "socket.io-client";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useQuery } from "@tanstack/react-query";
 import LoadingPage from "../shared/LoadingPage";
 import moment from "moment";
-const socket = io("http://localhost:9000");
 
 const Notifications = () => {
   const { user } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  console.log(user);
 
   // Fetch notifications
   const { data: notifications, isLoading } = useQuery({
@@ -29,7 +27,6 @@ const Notifications = () => {
   }
 
   const notificationArr = notifications || [];
-  console.log(notificationArr);
 
   return (
     <section>

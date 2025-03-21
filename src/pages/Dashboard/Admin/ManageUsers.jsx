@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import default_avatar from "../../../assets/default_avatar.jpg";
 import useCoins from "../../../hooks/useCoins";
+import { toast } from "react-toastify";
 
 const ManageUsers = () => {
   let axiosPrivate = useAxiosPrivate();
@@ -33,7 +34,6 @@ const ManageUsers = () => {
 
   // this is for delete user
   let handleDeleteUser = async (id) => {
-    console.log(id);
 
     try {
       let { data } = await axiosPrivate.delete(`/users/${id}`);
@@ -48,7 +48,7 @@ const ManageUsers = () => {
         });
       }
     } catch (error) {
-      console.log(error.message);
+     toast.error(error.message);
     }
   };
 
@@ -80,7 +80,7 @@ const ManageUsers = () => {
         navigate("/dashboard/admin/manageusers");
       }
     } catch (error) {
-      console.log(error);
+     toast.error(error);
     }
   };
 

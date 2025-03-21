@@ -61,14 +61,14 @@ const SignUp = () => {
       }
       setloading(false);
     } catch (error) {
-      console.log(error.code);
+      toast.error(error.code);
     } finally {
       setloading(false);
     }
   };
   return (
     <div>
-      <div className="flex justify-center">
+      <div className="flex justify-center items-center min-h-screen p-2">
         <div className="w-full max-w-lg border border-gray-600 rounded-xl  shadow-2xl  p-10">
           <h1 className="text-center text-3xl font-semibold mb-5">Register</h1>
           <form onSubmit={handleSubmit} className=" w-full">

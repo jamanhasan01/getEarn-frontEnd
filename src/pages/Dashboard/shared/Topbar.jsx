@@ -10,6 +10,9 @@ import { useState } from "react";
 import useWorker from "../../../hooks/useWorker";
 import useCoins from "../../../hooks/useCoins";
 
+import { animate, motion, useMotionValue, useTransform } from "motion/react";
+import { useEffect } from "react";
+
 const Topbar = () => {
   let { user } = useAuth();
   let [coins, refetchCoins] = useCoins();
@@ -17,6 +20,20 @@ const Topbar = () => {
   let [isWorker] = useWorker();
   const [showNotificatoinBar, setshowNotificatoinBar] = useState(false);
   let location = useLocation();
+
+  // ------------------------------
+  // Animation setup
+  const count = useMotionValue(0); // Start from 0
+  const rounded = useTransform(count, (latest) => Math.round(latest)); // Round the animated value
+
+  useEffect(() => {
+    if (typeof coins === "number") {
+
+      const controls = animate(count, coins, { duration: 1 });
+      return () => controls.stop();
+    }
+  }, [coins]); // Animate when coins change
+  // ------------------------------
 
   let { data: user_info, isLoading } = useQuery({
     queryKey: [user?.email],
@@ -38,9 +55,9 @@ const Topbar = () => {
           <h4 className="text-white/80 w-24 md:w-auto">
             <span className="font-semibold">Role</span> : {user_info?.role}
           </h4>
-          <h4 className="flex items-center text-2xl font-semibold gap-2 text-[#FFD700]">
+          <h4 className="flex items-center text-xl font-semibold gap-2 text-[#FFD700]">
             {" "}
-            {coins}
+            <motion.span>{rounded}</motion.span>
             <FaCoins />
           </h4>
         </div>
@@ -54,7 +71,7 @@ const Topbar = () => {
               e.target.src = default_avatar; // Replace with your default image URL
             }}
           />
-          <h4 className="text-sm font-semibold ">{user?.displayName}</h4>
+          <h4 className="text-sm font-semibold ">{user_info?.name}</h4>
         </div>
         <div>
           {isWorker?.worker &&
@@ -86,9 +103,15 @@ const Topbar = () => {
       </div>
       <div className=" absolute right-0 top-20">
         {showNotificatoinBar && (
-          <NavBarOfNotifications
-            setshowNotificatoinBar={setshowNotificatoinBar}
-          ></NavBarOfNotifications>
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
+          >
+            <NavBarOfNotifications
+              setshowNotificatoinBar={setshowNotificatoinBar}
+            ></NavBarOfNotifications>
+          </motion.div>
         )}
       </div>
     </div>

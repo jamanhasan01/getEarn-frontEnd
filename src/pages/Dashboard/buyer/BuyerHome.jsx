@@ -23,7 +23,7 @@ let axiosPrivate=useAxiosPrivate()
       return res.data;
     },
   });
-  console.log(refetchTask);
+
 
   let pending_count = tasks?.reduce((acc, item) => {
     return item.status == "pending" ? acc + 1 : acc;

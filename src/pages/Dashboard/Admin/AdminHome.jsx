@@ -19,7 +19,7 @@ const AdminHome = () => {
     return <LoadingPage></LoadingPage>;
   }
   let { total_worker, total_buyer, total_coin ,total_paid}=total_count
-console.log(total_paid);
+
 
   return (
     <section>

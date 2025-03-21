@@ -3,6 +3,7 @@ import useAuth from "../hooks/useAuth";
 import default_avatar from "../assets/default_avatar.jpg";
 import ThemeToggle from "../components/ThemeToggle";
 import { useState, useEffect } from "react"; // Import useState and useEffect
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [isTransparent, setIsTransparent] = useState(true); // State to manage transparency
@@ -15,7 +16,7 @@ const Navbar = () => {
       .then(() => {
         navigate("/signin");
       })
-      .catch((error) => console.log(error));
+      .catch((error) =>toast.error(error));
   };
 
   // Add scroll event listener
@@ -60,7 +61,7 @@ const Navbar = () => {
 
   return (
     <div
-    className={`navbar fixed left-0 top-0 z-10 border-b-2 border-secondary transition-colors duration-300 ${
+    className={`navbar fixed left-0 top-0 z-10  transition-colors duration-300 ${
       isTransparent
         ? "bg-white dark:bg-transparent"
         : " dark:bg-base-100/80 bg-transparent backdrop-blur-sm shadow-md"

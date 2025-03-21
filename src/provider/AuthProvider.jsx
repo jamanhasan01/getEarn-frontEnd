@@ -11,6 +11,7 @@ import { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.init";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export let authContext = createContext();
 
@@ -67,7 +68,7 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  console.log(user);
+ 
 
   let authInfo = {
     user,

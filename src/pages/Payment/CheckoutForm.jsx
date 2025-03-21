@@ -51,10 +51,10 @@ const CheckoutForm = ({ setshowmodel, planCard }) => {
     });
 
     if (error) {
-      console.log("payment error ", error);
+      toast.error("payment error ", error);
       seterror(error.message);
     } else {
-      console.log("payment method ", paymentMethod);
+      toast.error("payment method ", paymentMethod);
       seterror("");
     }
 
@@ -88,7 +88,7 @@ const CheckoutForm = ({ setshowmodel, planCard }) => {
         toast.success(`You get ${PurchaseCoinAdd}`);
 
         let res=await axiosPrivate.post('/payment_history',payment_info)
-        console.log(res);
+   
         
 
 

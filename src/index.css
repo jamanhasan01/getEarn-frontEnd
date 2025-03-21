@@ -2,7 +2,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+html, body {
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
 @layer components {
   .container{
     @apply max-w-7xl mx-auto py-20 px-5 md:px-10 xl:px-0

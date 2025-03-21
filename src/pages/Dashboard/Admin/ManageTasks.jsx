@@ -30,7 +30,6 @@ const ManageTasks = () => {
   if (isLoadingTasks) {
     return <LoadingPage />;
   }
-  console.log(tasks);
 
   const handleDeleteTask = async (
     id,

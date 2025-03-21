@@ -31,6 +31,7 @@ import { RiArrowGoBackFill } from "react-icons/ri";
 
 import { FaCircleChevronRight } from "react-icons/fa6";
 import { GiTakeMyMoney } from "react-icons/gi";
+import { toast } from "react-toastify";
 
 
 const DashBoard = () => {
@@ -49,12 +50,12 @@ const DashBoard = () => {
   if (!user) {
     logout()
       .then(() => navigate("/signin"))
-      .catch((error) => console.log(error));
+      .catch((error) => toast.error(error));
   }
   let handleLogout = () => {
     logout()
       .then(() => navigate("/signin"))
-      .catch((error) => console.log(error));
+      .catch((error) =>toast.error(error));
   };
 
   return (

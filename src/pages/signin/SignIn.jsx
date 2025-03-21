@@ -28,13 +28,31 @@ const SignIn = () => {
         }
       })
       .catch((error) => {
-        console.log(error.catch);
+         // Handle specific Firebase errors
+         switch (error.code) {
+          case "auth/invalid-email":
+            toast.error("Invalid email address.");
+            break;
+          case "auth/user-not-found":
+            toast.error("No user found with this email.");
+            break;
+          case "auth/wrong-password":
+            toast.error("Incorrect password. Please try again.");
+            break;
+          case "auth/invalid-credential":
+            toast.error("Invalid credentials. Please check your email and password.");
+            break;
+          default:
+            toast.error("Login failed. Please try again.");
+        }
+    
+        setloading(false)
       });
   };
 
   return (
     <div>
-      <div className="flex justify-center">
+      <div className="flex justify-center items-center min-h-screen p-2">
         <div className="w-full max-w-lg border  border-gray-600 rounded-xl  shadow-2xl p-10">
           <h1 className="text-center text-3xl font-semibold mb-5 ">Login</h1>
           <form onSubmit={handleSignIn} className=" w-full">

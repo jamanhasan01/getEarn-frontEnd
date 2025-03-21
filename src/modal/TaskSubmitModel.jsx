@@ -32,8 +32,6 @@ const TaskSubmitModel = ({
     _id,
   } = task;
 
-  console.log(task);
-
   // ----------------
   let axiosPublic = useAxiosPublic();
   //   this state for when model over scroll will be hide
@@ -74,7 +72,6 @@ const TaskSubmitModel = ({
         return;
       }
 
-      console.log("Uploaded Image URL:", imageUrl);
 
       //   this is post request for update summission data send in database
       let taskSubmissions = {
@@ -94,7 +91,7 @@ const TaskSubmitModel = ({
         task_title,
         submissionTime: currentTime,
       };
-      console.log(taskSubmissions);
+ 
 
       let res = await axiosPublic.post("/submission_task", taskSubmissions);
       if (res.data.insertedId) {
@@ -105,7 +102,7 @@ const TaskSubmitModel = ({
         navigate("/dashboard/worker/tasklist");
       }
     } catch (error) {
-      console.error("Error:", error.message);
+
       toast.error("Something went wrong. Please try again.");
     }
   };

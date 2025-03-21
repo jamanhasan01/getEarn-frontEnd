@@ -86,7 +86,7 @@ const Withdrawals = () => {
       worker_photo: user?.photoURL,
       date:moment().format('L')
     };
-    console.log(withdrawObj);
+
     
     // this api for request save withdraw data in database
     try {

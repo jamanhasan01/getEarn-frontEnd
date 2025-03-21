@@ -29,7 +29,7 @@ const WithdrawTable = ({total_count_refatch}) => {
   // this funtion for handle approve request
 
   let handleApproveReq = async (id, email, withdraw_amount) => {
-    console.log(id, email, withdraw_amount);
+
 
     let res = await axiosPrivate.patch(`/withdraw/${id}`, {
       status: "approved",

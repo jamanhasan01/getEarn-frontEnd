@@ -34,7 +34,7 @@ const WokerHome = () => {
     return item.status == "pending" ? acc + 1 : acc;
   }, 0);
 
-  console.log(pending_count);
+ 
 
   let earn_count = tasks?.reduce((acc, item) => {
     return item.status == "approved" ? acc + item.payable_amount : acc;

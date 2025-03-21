@@ -52,7 +52,7 @@ const SubmissionBuyerTask = ({ totalPaidCoin, settotalPaidCoin }) => {
           let res = await axiosPrivate.patch(
             `/total_paid/users/buyer/${user?.email}?total_coin=${payable_amount}`
           );
-          console.log(res.data);
+     
 
           settotalPaidCoin(totalPaidCoin + payable_amount);
           toast("Approve Successfull");
@@ -76,7 +76,7 @@ const SubmissionBuyerTask = ({ totalPaidCoin, settotalPaidCoin }) => {
       );
       if (res.data.modifiedCount) {
         let res = await axiosPrivate.patch(`/submission_task/${id}`, statusObj);
-        console.log(res.data);
+  
         if (res.data.modifiedCount) {
           toast.warning("Reject successfully");
           refetchTask();
