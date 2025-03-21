@@ -7,7 +7,7 @@ const HeroSection = () => {
     <div className="">
       {" "}
       {/* Set parent background */}
-      <div className="hero bg-secondary dark:bg-gray-800">
+      <div className="hero bg-secondary dark:bg-gray-800 pt-10">
         <div className="hero-content container flex-col lg:flex-row-reverse justify-between">
           <div className="flex sm:justify-start lg:justify-center items-center">
             <img
