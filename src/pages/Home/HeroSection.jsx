@@ -12,7 +12,7 @@ const HeroSection = () => {
           <div className="flex sm:justify-start lg:justify-center items-center">
             <img
               src={heroImg}
-              className="hidden md:block md:w-full md:max-w-sm rounded-badge shadow-2xl bg-white dark:bg-secondary"
+              className="hidden md:block md:w-full md:max-w-sm rounded-badge  bg-transparent "
               alt="Hero"
             />
           </div>
