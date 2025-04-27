@@ -17,16 +17,18 @@ const HeroSection = () => {
             />
           </div>
           <div className="lg:w-1/2">
-            <h1 className="text-5xl font-bold text-white dark:text-secondary">
-              Get Work Done, Earn More The Future of Microtasks is Here!
+            <h1 className="text-5xl font-bold text-white leading-tight dark:text-secondary">
+              Watch, Enjoy, and Earn Your Path to Earning Coins with Every
+              Video!
             </h1>
             <p className="py-6 text-gray-700 font-semibold dark:text-gray-300">
-              Welcome to MicTask, the ultimate platform where businesses and
-              freelancers connect seamlessly! Whether you’re looking to hire
-              skilled workers or earn by completing tasks, we’ve got you
-              covered.
+              Welcome to GetEarn, the ultimate platform where you can watch
+              exciting videos and get rewarded with coins! Every video you watch
+              brings you closer to earning more, with endless opportunities to
+              boost your earnings. Start watching today and turn your time into
+              rewards!
             </p>
-            <Link to={'/dashboard'}> 
+            <Link to={"/dashboard"}>
               <button className="btn bg-white text-secondary hover:bg-black hover:text-white dark:bg-secondary dark:text-white  border-none btn-primary">
                 Get Started
               </button>
