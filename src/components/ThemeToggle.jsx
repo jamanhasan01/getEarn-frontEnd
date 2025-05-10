@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FaMoon } from "react-icons/fa";
 import { FaSun } from "react-icons/fa";
 
-const ThemeToggle = () => {
+const ThemeToggle = ({isTransparent}) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   // Check for saved theme in localStorage when the component mounts
@@ -38,7 +38,7 @@ const ThemeToggle = () => {
           <FaMoon />
         </button>
       ) : (
-        <button className=" text-secondary" onClick={switchToDark}>
+        <button className={`${!isTransparent?"!text-secondary" : "text-white"}`} onClick={switchToDark}>
           <FaSun />
         </button>
       )}

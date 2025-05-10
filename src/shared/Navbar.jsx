@@ -63,7 +63,7 @@ const Navbar = () => {
     <div
     className={`navbar fixed left-0 top-0 z-10  transition-colors duration-300 ${
       isTransparent
-        ? "bg-white dark:bg-transparent"
+        ? "bg-transparent !text-secondary"
         : " dark:bg-base-100/80 bg-transparent backdrop-blur-sm shadow-md"
     }`}
   >
@@ -71,7 +71,7 @@ const Navbar = () => {
         <div className="flex-1">
           <Link
             to={"/"}
-            className="btn btn-ghost !text-secondary dark:text-white text-xl"
+            className={`btn btn-ghost text-white ${!isTransparent &&"!text-secondary"}   text-xl`}
           >
             Get_Earn
           </Link>
@@ -101,7 +101,7 @@ const Navbar = () => {
               {items}
             </ul>
           </div>
-          <ThemeToggle></ThemeToggle>
+          <ThemeToggle isTransparent={isTransparent}></ThemeToggle>
         </div>
       </div>
     </div>
